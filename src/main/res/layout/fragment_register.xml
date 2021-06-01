@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/registerLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF">
+
+
+    <ScrollView
+        android:id="@+id/registerScrollView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/registerTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="65dp"
+                android:text="회원가입"
+                android:textSize="30sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/registerID"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <EditText
+                android:id="@+id/registerPass"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="24dp"
+                android:ems="10"
+                android:hint="비밀번호"
+                android:inputType="textPassword"
+                app:layout_constraintBottom_toTopOf="@+id/registerPassCheck"
+                app:layout_constraintStart_toStartOf="@+id/registerNick" />
+
+            <EditText
+                android:id="@+id/registerID"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="24dp"
+                android:ems="10"
+                android:hint="아이디"
+                android:inputType="textPersonName"
+                app:layout_constraintBottom_toTopOf="@+id/registerEmail"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <EditText
+                android:id="@+id/registerPassCheck"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="24dp"
+                android:ems="10"
+                android:hint="비밀번호 확인"
+                android:inputType="textPassword"
+                app:layout_constraintBottom_toTopOf="@+id/registerBirth"
+                app:layout_constraintStart_toStartOf="@+id/registerPass" />
+
+            <EditText
+                android:id="@+id/registerEmail"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_marginBottom="24dp"
+                android:ems="10"
+                android:hint="이메일"
+                android:inputType="textEmailAddress"
+                app:layout_constraintBottom_toTopOf="@+id/registerNick"
+                app:layout_constraintStart_toStartOf="@+id/registerID" />
+
+            <EditText
+                android:id="@+id/registerNick"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="2dp"
+                android:layout_marginBottom="24dp"
+                android:ems="10"
+                android:hint="닉네임"
+                android:inputType="textPersonName"
+                app:layout_constraintBottom_toTopOf="@+id/registerPass"
+                app:layout_constraintStart_toStartOf="@+id/registerEmail" />
+
+            <EditText
+                android:id="@+id/registerBirth"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_marginEnd="6dp"
+                android:layout_marginBottom="24dp"
+                android:enabled="false"
+                android:ems="10"
+                android:hint="생일"
+                app:layout_constraintBottom_toTopOf="@+id/registerGenderGroup"
+                app:layout_constraintEnd_toStartOf="@+id/registerBirthSelectButton"
+                app:layout_constraintStart_toStartOf="@+id/registerPassCheck" />
+
+            <RadioGroup
+                android:id="@+id/registerGenderGroup"
+                android:layout_width="210dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="24dp"
+                android:ems="10"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toTopOf="@+id/registerJoinButton"
+                app:layout_constraintStart_toStartOf="@+id/registerBirth">
+
+                <RadioButton
+                    android:id="@+id/registerMale"
+                    android:layout_width="105dp"
+                    android:layout_height="wrap_content"
+                    android:text="남자" />
+
+                <RadioButton
+                    android:id="@+id/registerFemale"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="여자" />
+            </RadioGroup>
+
+            <Button
+                android:id="@+id/registerBirthSelectButton"
+                android:layout_width="70dp"
+                android:layout_height="50dp"
+                android:layout_marginEnd="97dp"
+                android:text="선택"
+                app:layout_constraintBaseline_toBaselineOf="@+id/registerBirth"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <Button
+                android:id="@+id/registerCancelButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="30dp"
+                android:text="취소"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/registerGenderGroup" />
+
+            <Button
+                android:id="@+id/registerJoinButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="가입"
+                app:layout_constraintBaseline_toBaselineOf="@+id/registerCancelButton"
+                app:layout_constraintStart_toStartOf="@+id/registerGenderGroup" />
+
+
+            <EditText
+                android:id="@+id/registerVerifyCode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="65dp"
+                android:ems="10"
+                android:hint="이메일 인증코드"
+                android:inputType="textPersonName"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/registerTitle"
+                tools:visibility="visible" />
+
+            <Button
+                android:id="@+id/registerVerifyCheckButton"
+                android:layout_width="210dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="24dp"
+                android:text="확인"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/registerVerifyCode"
+                tools:visibility="visible" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

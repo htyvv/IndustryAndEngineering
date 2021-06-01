@@ -1,0 +1,42 @@
+{
+    "UserAgent": "aws-amplify-cli/0.1.0",
+    "Version": "0.1.0",
+    "IdentityManager": {
+        "Default": {}
+    },
+    "CredentialsProvider": {
+        "CognitoIdentity": {
+            "Default": {
+                "PoolId": "ap-northeast-2:e1c36e47-de11-4303-8b16-9bf0d20d2f61",
+                "Region": "ap-northeast-2"
+            }
+        }
+    },
+    "CognitoUserPool": {
+        "Default": {
+            "PoolId": "ap-northeast-2_yaDE8KoMc",
+            "AppClientId": "6oe6eijghtifvljvnpdpp35umo",
+            "Region": "ap-northeast-2"
+        }
+    },
+    "Auth": {
+      "Default": {
+        "OAuth": {
+          "WebDomain": "babdomain-dev.auth.ap-northeast-2.amazoncognito.com",
+          "AppClientId": "6oe6eijghtifvljvnpdpp35umo",
+          "SignInRedirectURI": "myapp://callback/",
+          "SignOutRedirectURI": "amyapp://signout/",
+          "Scopes": [
+            "phone",
+            "email",
+            "openid",
+            "profile",
+            "aws.cognito.signin.user.admin"
+          ]
+        },
+        "authenticationFlowType": "USER_SRP_AUTH",
+        "Region": "ap-northeast-2"
+
+      }
+    }
+}

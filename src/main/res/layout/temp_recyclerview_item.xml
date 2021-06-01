@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/recyclerLayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/edit_round"
+    android:backgroundTint="#FFE6E6"
+    android:gravity="center_vertical">
+
+    <RelativeLayout
+        android:id="@+id/rankLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/myImageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scaleType="center"
+            android:src="@drawable/image_customise_circle" />
+
+        <TextView
+            android:id="@+id/recycler_rank"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/myImageView"
+            android:layout_alignTop="@id/myImageView"
+            android:layout_alignRight="@id/myImageView"
+            android:layout_alignBottom="@id/myImageView"
+            android:layout_marginStart="1dp"
+            android:layout_marginTop="1dp"
+            android:layout_marginEnd="1dp"
+            android:layout_marginBottom="1dp"
+            android:fontFamily="@font/bubblebo"
+            android:gravity="center"
+            android:text="N위"
+            android:textColor="#C85C40"
+            android:textSize="30sp" />
+
+    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/recycler_image"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/rankLayout"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+
+        app:srcCompat="@drawable/image_customise_realpizza" />
+
+    <TextView
+        android:id="@+id/recycler_item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal|center_vertical"
+        android:includeFontPadding="false"
+        android:text="Name"
+        android:textColor="@android:color/black"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/recycler_image"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/recycler_item_info"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:includeFontPadding="false"
+        android:text="Describe"
+        android:textColor="@android:color/darker_gray"
+        android:textSize="13sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/recycler_image"
+        app:layout_constraintTop_toBottomOf="@+id/recycler_item"
+        app:layout_constraintVertical_bias="0.569" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,478 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mainFragmentLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    android:orientation="vertical">
+
+
+    <androidx.drawerlayout.widget.DrawerLayout
+        android:id="@+id/drawerLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <ScrollView
+            android:id="@+id/ScrollView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/frameLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageButton
+                    android:id="@+id/setting"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="30dp"
+                    android:background="#FFFFFF"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/baseline_settings_24" />
+
+                <TextView
+                    android:id="@+id/mainTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginEnd="15dp"
+                    android:text="오늘 nickname님의 추천 음식 순위"
+                    android:textSize="25sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/filter" />
+
+                <ImageButton
+                    android:id="@+id/filter"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginEnd="15dp"
+                    android:background="@drawable/filter_image"
+                    android:text="필 터"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycler"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="15dp"
+                    app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/selectedLayout" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/selectedLayout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="15dp"
+                    android:visibility="gone"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/mainTitle"
+                    tools:visibility="visible">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/itemLayout"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:background="@drawable/edit_round"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <ImageView
+                            android:id="@+id/rankImageView"
+                            android:layout_width="113dp"
+                            android:layout_height="114dp"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginBottom="10dp"
+                            android:scaleType="center"
+                            android:src="@drawable/circle_crown"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:ignore="MissingConstraints" />
+
+                        <ImageView
+                            android:id="@+id/foodImageView"
+                            android:layout_width="116dp"
+
+                            android:layout_height="112dp"
+                            android:layout_marginStart="10dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toStartOf="@+id/recent"
+                            app:layout_constraintStart_toEndOf="@+id/rankImageView"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/recent"
+                            android:layout_width="103dp"
+                            android:layout_height="45dp"
+
+                            android:layout_marginEnd="10dp"
+                            android:text="Recent"
+                            android:textSize="30dp"
+                            app:layout_constraintBottom_toTopOf="@+id/iwanttoeat"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            tools:ignore="MissingConstraints" />
+
+                        <ImageButton
+                            android:id="@+id/closeButton"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginEnd="10dp"
+                            android:backgroundTint="#FA9999"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:srcCompat="@drawable/baseline_close_18" />
+
+                        <ImageButton
+                            android:id="@+id/infoButton"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginEnd="5dp"
+
+                            android:backgroundTint="#FA9999"
+                            app:layout_constraintEnd_toStartOf="@+id/closeButton"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:srcCompat="@drawable/baseline_add_24" />
+
+                        <Button
+                            android:id="@+id/iwanttoeat"
+                            android:layout_width="80dp"
+                            android:layout_height="30dp"
+                            android:layout_marginEnd="5dp"
+                            android:layout_marginBottom="10dp"
+                            android:background="@drawable/edit_round"
+                            android:text="먹을래요!"
+                            android:textSize="10dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/foodImageView" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/infoLayout"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/edit_round"
+                        android:visibility="gone"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/itemLayout"
+                        tools:visibility="visible">
+
+                        <androidx.viewpager2.widget.ViewPager2
+                            android:id="@+id/foodViewPager"
+                            android:layout_width="282dp"
+                            android:layout_height="300dp"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginTop="20dp"
+                            android:layout_marginEnd="20dp"
+                            android:background="#FFFFFF"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TableLayout
+                            android:id="@+id/nutrimentLayout"
+                            android:layout_width="match_parent"
+                            android:layout_height="65dp"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginTop="20dp"
+                            android:layout_marginEnd="20dp"
+                            android:layout_marginBottom="20dp"
+                            android:background="#FFFFFF"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="0.0"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/foodViewPager"
+                            app:layout_constraintVertical_bias="1.0">
+
+                            <TableRow
+                                android:id="@+id/nutrimentRow1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content">
+
+                                <TextView
+                                    android:id="@+id/calorieText"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:gravity="center"
+                                    android:text="  칼로리 "
+                                    android:textSize="17sp" />
+
+                                <TextView
+                                    android:id="@+id/carboText"
+                                    android:layout_width="79dp"
+                                    android:layout_height="match_parent"
+                                    android:gravity="center"
+                                    android:text="탄수화물 "
+                                    android:textSize="17sp" />
+
+                                <TextView
+                                    android:id="@+id/proteinText"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:gravity="center"
+                                    android:text="단백질 "
+                                    android:textSize="17sp" />
+
+                                <TextView
+                                    android:id="@+id/fatText"
+                                    android:layout_width="52dp"
+                                    android:layout_height="match_parent"
+                                    android:gravity="center"
+                                    android:text="지방"
+                                    android:textSize="17sp" />
+
+                                <TextView
+                                    android:id="@+id/priceText"
+                                    android:layout_width="98dp"
+                                    android:layout_height="match_parent"
+                                    android:gravity="center"
+                                    android:text="가격"
+                                    android:textSize="17sp" />
+
+                            </TableRow>
+
+                            <TableRow android:id="@+id/nutrimentRow2">
+
+                                <TextView
+                                    android:id="@+id/carlorieValueText"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:text="10Kcal"
+                                    android:textSize="17sp" />
+
+                                <TextView
+                                    android:id="@+id/carboValueText"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:text="99g"
+                                    android:textSize="17sp" />
+
+                                <TextView
+                                    android:id="@+id/proteinValueText"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:text="2g"
+                                    android:textSize="17sp" />
+
+                                <TextView
+                                    android:id="@+id/fatValueText"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:text="200g"
+                                    android:textSize="17sp" />
+
+                                <TextView
+                                    android:id="@+id/priceValueText"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:text="20000원"
+                                    android:textSize="17sp" />
+
+
+                            </TableRow>
+                        </TableLayout>
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <Button
+                    android:id="@+id/foodwritebutton"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginEnd="15dp"
+                    android:text="Button"
+                    app:layout_constraintEnd_toStartOf="@+id/filter"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
+
+
+        <LinearLayout
+            android:id="@+id/filterLayout"
+            android:layout_width="200dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            android:background="@color/white"
+            android:orientation="vertical">
+
+
+            <Button
+                android:id="@+id/apply"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="적용" />
+
+            <CheckBox
+                android:id="@+id/mainFilter2"
+                android:layout_width="160dp"
+                android:layout_height="40dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="30dp"
+                android:buttonTint="#B53838"
+                android:drawableRight="@drawable/food_gue"
+                android:text="구이류"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <CheckBox
+                android:id="@+id/mainFilter3"
+                android:layout_width="160dp"
+                android:layout_height="40dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:buttonTint="#B53838"
+                android:drawableRight="@drawable/food_gook"
+                android:text="국류"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <CheckBox
+                android:id="@+id/mainFilter4"
+                android:layout_width="160dp"
+                android:layout_height="40dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:buttonTint="#B53838"
+                android:drawableRight="@drawable/food_jungol"
+                android:text="전골류"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <CheckBox
+                android:id="@+id/mainFilter5"
+                android:layout_width="160dp"
+                android:layout_height="40dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:buttonTint="#B53838"
+                android:drawableRight="@drawable/food_meon"
+                android:text="면류"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <CheckBox
+                android:id="@+id/mainFilter6"
+                android:layout_width="160dp"
+                android:layout_height="40dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:buttonTint="#B53838"
+                android:drawableRight="@drawable/food_bab"
+                android:text="밥류"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <CheckBox
+                android:id="@+id/mainFilter7"
+                android:layout_width="160dp"
+                android:layout_height="40dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:buttonTint="#B53838"
+                android:drawableRight="@drawable/food_bokkem"
+                android:text="볶음류"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <CheckBox
+                android:id="@+id/mainFilter8"
+                android:layout_width="160dp"
+                android:layout_height="40dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:buttonTint="#B53838"
+                android:drawableRight="@drawable/food_bbang"
+                android:text="빵류"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <CheckBox
+                android:id="@+id/mainFilter9"
+                android:layout_width="160dp"
+                android:layout_height="40dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:buttonTint="#B53838"
+                android:drawableRight="@drawable/food_jook"
+                android:text="죽류"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <CheckBox
+                android:id="@+id/mainFilter10"
+                android:layout_width="160dp"
+                android:layout_height="40dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:buttonTint="#B53838"
+                android:drawableRight="@drawable/food_jjim"
+                android:text="찜류"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+            <CheckBox
+                android:id="@+id/mainFilter11"
+                android:layout_width="160dp"
+                android:layout_height="40dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:buttonTint="#B53838"
+                android:drawableRight="@drawable/food_tuigim"
+                android:text="튀김류"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+            <CheckBox
+                android:id="@+id/mainFilter12"
+                android:layout_width="160dp"
+                android:layout_height="40dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:buttonTint="#B53838"
+                android:drawableRight="@drawable/food_hwoe"
+                android:text="회류"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+    </androidx.drawerlayout.widget.DrawerLayout>
+
+
+</LinearLayout>
