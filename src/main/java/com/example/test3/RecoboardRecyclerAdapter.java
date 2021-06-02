@@ -156,7 +156,7 @@ public class RecoboardRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.
                 @Override
                 public void run() {
                     Glide.with(parentFragment.getActivity()).load(data.getImage())
-                            .placeholder(R.mipmap.ic_main)
+                            .placeholder(R.drawable.placeholder)
                             .error(R.mipmap.ic_main)
                             .into(recoboardImage);
 

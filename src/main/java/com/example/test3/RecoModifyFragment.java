@@ -324,7 +324,7 @@ public class RecoModifyFragment extends Fragment { // 10
                     imgURL = "https://babimagelist.s3.ap-northeast-2.amazonaws.com/public/noimage.jpg";
                 } else {
                     int imgEnd = content.indexOf("\" />", imgStart + 10);
-                    imgURL = content.substring(imgStart, imgEnd);
+                    imgURL = content.substring(imgStart + 10, imgEnd);
                 }
 
 
