@@ -254,11 +254,12 @@ public class RecoModifyFragment extends Fragment { // 10
                     case KeyEvent.KEYCODE_ENTER:
                         if (!recoModifyTagInput.getText().toString().equals("")) {
                             if (tagCount < 5) {
-                                tag = tag + "#" + recoModifyTagInput.getText().toString() + " ";
+                                tag = tag + "#" + recoModifyTagInput.getText().toString().replace("\n", "") + " ";
                                 recoModifyTagInput.setText(tag);
                                 recoModifyTagInput.setText(null);
                                 tagCount++;
                             } else {
+                                recoModifyTagInput.setText(null);
                                 Toast.makeText(getContext(), "태그는 5개까지만 가능합니다.", Toast.LENGTH_LONG).show();
                             }
                         }
@@ -286,6 +287,7 @@ public class RecoModifyFragment extends Fragment { // 10
                         recoModifyTagInput.setText(null);
                         tagCount++;
                     } else {
+                        recoModifyTagInput.setText(null);
                         Toast.makeText(getContext(), "태그는 5개까지만 가능합니다.", Toast.LENGTH_LONG).show();
                     }
                 }
@@ -301,6 +303,7 @@ public class RecoModifyFragment extends Fragment { // 10
                 if (tagCount > 0) {
                     int lastTag = tag.lastIndexOf("#");
                     tag = tag.substring(0, lastTag);
+                    recoModifyTagResult.setText(tag);
                     tagCount--;
                 }
             }
