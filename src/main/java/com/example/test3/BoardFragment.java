@@ -1,8 +1,11 @@
 package com.example.test3;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -15,6 +18,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -22,6 +26,9 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.amplifyframework.auth.options.AuthSignOutOptions;
+import com.amplifyframework.core.Amplify;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -62,7 +69,7 @@ public class BoardFragment extends Fragment {
         adapter = new BoardRecyclerAdapter(this);
         recyclerView.setAdapter(adapter);
 
-        recyclerView.addItemDecoration(new RecyclerViewDecoration(0, 15));
+        recyclerView.addItemDecoration(new RecyclerViewDecoration(0, 20));
 
 
         // Amplify로부터 게시글을 받아옴
@@ -125,8 +132,75 @@ public class BoardFragment extends Fragment {
         boardUser = view.findViewById(R.id.boardUser);
         boardUser.setOnClickListener(new View.OnClickListener(){
             @Override
-            public void onClick(View v){
-                ((MainActivity) getActivity()).setFrag(4);
+            public void onClick(View view){
+
+                AlertDialog.Builder dlg = new AlertDialog.Builder(getActivity());
+                dlg.setTitle("설정"); //제목
+                final String[] versionArray = new String[] {"닉네임 변경", "로그아웃"};
+
+                dlg.setItems(versionArray, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (versionArray[which].equals("닉네임 변경")) {
+
+                            final LinearLayout linear = (LinearLayout) View.inflate(getActivity(), R.layout.dialog_nickname, null);
+                            TextView nickTextView = (TextView) linear.findViewById(R.id.nickTextView);
+                            nickTextView.setText("현재 닉네임: " + MainActivity.userName);
+
+                            new AlertDialog.Builder(getActivity())
+                                    .setView(linear)
+                                    .setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int whichButton) {
+                                            EditText nickEditText = (EditText) linear.findViewById(R.id.nickEditText);
+                                            String value = nickEditText.getText().toString();
+                                            AmplifyApi.setUserNick(value);
+
+                                            while (!MainActivity.modifyComplete) {
+                                                try {
+                                                    Thread.sleep(500);
+                                                } catch (InterruptedException e) {
+                                                    e.printStackTrace();
+                                                }
+                                            }
+
+                                            MainActivity.modifyComplete = false;
+
+                                            dialog.dismiss();
+                                        }
+                                    })
+                                    .setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int whichButton) {
+                                            dialog.dismiss();
+                                        }
+                                    })
+                                    .show();
+
+
+                        } else if (versionArray[which].equals("로그아웃")) {
+
+                            Amplify.Auth.signOut(
+                                    AuthSignOutOptions.builder().globalSignOut(true).build(),
+                                    () -> {
+                                        Log.i("AuthQuickstart", "Signed out globally");
+
+                                        Handler mHandler = new Handler(Looper.getMainLooper());
+                                        mHandler.postDelayed(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                Toast.makeText(getContext(), "로그아웃 되었습니다.", Toast.LENGTH_LONG).show();
+                                            }
+                                        }, 0);
+
+                                        ((MainActivity) getActivity()).setFrag(7);
+                                    },
+                                    error -> Log.e("AuthQuickstart", error.toString())
+                            );
+
+                        }
+                    }
+                });
+
+                dlg.show();
             }
         });
 

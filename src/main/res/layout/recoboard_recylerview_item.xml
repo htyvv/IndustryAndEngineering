@@ -77,7 +77,7 @@
             android:layout_marginTop="5dp"
             android:layout_marginBottom="10dp"
             android:ellipsize="marquee"
-            android:focusable="true"
+            android:focusable="false"
             android:includeFontPadding="false"
             android:marqueeRepeatLimit="marquee_forever"
             android:singleLine="true"
