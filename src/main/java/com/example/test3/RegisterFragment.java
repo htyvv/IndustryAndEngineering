@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
@@ -51,7 +52,7 @@ public class RegisterFragment extends Fragment {
     RadioButton registerMale;
     RadioButton registerFemale;
 
-
+    ImageButton registerBack;
     EditText registerVerifyCode;
     Button registerVerifyCheckButton;
 
@@ -154,6 +155,20 @@ public class RegisterFragment extends Fragment {
             }
         });
 
+
+
+        // registerBack
+        registerBack = binding.registerBack;
+        registerBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                changeRegisterEnabled(true);
+                changeRegisterVisibility(View.VISIBLE);
+
+                changeVerifyEnabled(false);
+                changeVerifyVisibility(View.GONE);
+            }
+        });
 
         // registerVerifyCode
         registerVerifyCode = binding.registerVerifyCode;
@@ -452,11 +467,13 @@ public class RegisterFragment extends Fragment {
 
 
     public void changeVerifyEnabled(boolean b) {
+        registerBack.setEnabled(b);
         registerVerifyCode.setEnabled(b);
         registerVerifyCheckButton.setEnabled(b);
     }
 
     public void changeVerifyVisibility(int i) {
+        registerBack.setVisibility(i);
         registerVerifyCode.setVisibility(i);
         registerVerifyCheckButton.setVisibility(i);
     }

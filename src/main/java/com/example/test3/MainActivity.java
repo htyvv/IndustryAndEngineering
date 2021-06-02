@@ -121,7 +121,7 @@ public class MainActivity extends AppCompatActivity {
                         setFrag(0);
                         break;
                     case R.id.board:
-                        setFrag(1);
+                        setFrag(3);
                         break;
                 }
 

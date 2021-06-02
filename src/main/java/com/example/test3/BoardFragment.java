@@ -62,7 +62,7 @@ public class BoardFragment extends Fragment {
         adapter = new BoardRecyclerAdapter(this);
         recyclerView.setAdapter(adapter);
 
-        recyclerView.addItemDecoration(new RecyclerViewDecoration(0, 30));
+        recyclerView.addItemDecoration(new RecyclerViewDecoration(0, 15));
 
 
         // Amplify로부터 게시글을 받아옴

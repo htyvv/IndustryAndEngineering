@@ -11,7 +11,7 @@
     <ScrollView
         android:id="@+id/registerScrollView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -25,7 +25,7 @@
                 android:id="@+id/registerTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="15dp"
                 android:layout_marginBottom="65dp"
                 android:text="회원가입"
                 android:textSize="30sp"
@@ -33,7 +33,7 @@
                 app:layout_constraintBottom_toTopOf="@+id/registerID"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toBottomOf="@+id/registerBack" />
 
             <EditText
                 android:id="@+id/registerPass"
@@ -98,8 +98,8 @@
                 android:layout_height="50dp"
                 android:layout_marginEnd="6dp"
                 android:layout_marginBottom="24dp"
-                android:enabled="false"
                 android:ems="10"
+                android:enabled="false"
                 android:hint="생일"
                 app:layout_constraintBottom_toTopOf="@+id/registerGenderGroup"
                 app:layout_constraintEnd_toStartOf="@+id/registerBirthSelectButton"
@@ -154,6 +154,19 @@
                 app:layout_constraintBaseline_toBaselineOf="@+id/registerCancelButton"
                 app:layout_constraintStart_toStartOf="@+id/registerGenderGroup" />
 
+
+            <ImageButton
+                android:id="@+id/registerBack"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="15dp"
+                android:background="#FFFFFF"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_arrow_back_black_18dp"
+                tools:visibility="visible" />
 
             <EditText
                 android:id="@+id/registerVerifyCode"

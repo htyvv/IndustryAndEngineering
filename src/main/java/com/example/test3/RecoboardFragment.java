@@ -52,7 +52,7 @@ public class RecoboardFragment extends Fragment {
         recoAdapter = new RecoboardRecyclerAdapter(this);
         recoRecyclerView.setAdapter(recoAdapter);
 
-        recoRecyclerView.addItemDecoration(new RecyclerViewDecoration(0, 30));
+        recoRecyclerView.addItemDecoration(new RecyclerViewDecoration(10, 10));
 
         // Amplify로부터 게시글을 받아옴
         AmplifyApi.RecommendBoardGet(recoAdapter, getActivity(), 0, null, null, null, false);

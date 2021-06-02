@@ -122,7 +122,7 @@ public class MainFragment extends Fragment {
         // mainTitle
         mainTitle = binding.mainTitle;
         // TODO: 아마 userName 받아오기 전에 길이를 계산해버려서 0, 0으로 처리되는듯?
-        SpannableStringBuilder sp = new SpannableStringBuilder(MainActivity.userName + "님을 위한\n오늘의 추천 음식!");
+        SpannableStringBuilder sp = new SpannableStringBuilder(MainActivity.userName + "님을 위한  \n오늘의 추천 음식!  ");
         sp.setSpan(new StyleSpan(Typeface.BOLD), 0, MainActivity.userName.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         mainTitle.setText(sp);
 
@@ -164,7 +164,7 @@ public class MainFragment extends Fragment {
                                             }
 
                                             MainActivity.modifyComplete = false;
-                                            mainTitle.setText("오늘 " + MainActivity.userName + "님의 추천 음식 순위!");
+                                            mainTitle.setText(MainActivity.userName + "님을 위한  \n오늘의 추천 음식!  ");
 
                                             dialog.dismiss();
                                         }
