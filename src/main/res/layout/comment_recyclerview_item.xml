@@ -20,10 +20,11 @@
 
     <LinearLayout
         android:id="@+id/commentRecyclerContentLayout"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/commentDeleteButton"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -40,6 +41,7 @@
             android:id="@+id/commentContent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingStart="5sp"
             android:text="Content"
             android:textColor="@android:color/black"
             android:textSize="15sp" />

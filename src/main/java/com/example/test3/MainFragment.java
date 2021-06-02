@@ -3,9 +3,16 @@ package com.example.test3;
 import android.animation.ObjectAnimator;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.SpannableStringBuilder;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.StyleSpan;
 import android.util.Log;
 import android.view.DragEvent;
 import android.view.LayoutInflater;
@@ -114,7 +121,10 @@ public class MainFragment extends Fragment {
 
         // mainTitle
         mainTitle = binding.mainTitle;
-        mainTitle.setText(MainActivity.userName + "님을 위한 오늘의 추천 음식!");
+        // TODO: 아마 userName 받아오기 전에 길이를 계산해버려서 0, 0으로 처리되는듯?
+        SpannableStringBuilder sp = new SpannableStringBuilder(MainActivity.userName + "님을 위한\n오늘의 추천 음식!");
+        sp.setSpan(new StyleSpan(Typeface.BOLD), 0, MainActivity.userName.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        mainTitle.setText(sp);
 
 
 

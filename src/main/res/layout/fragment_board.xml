@@ -10,7 +10,7 @@
     <LinearLayout
         android:id="@+id/postMenuLayout"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="wrap_content"
         android:orientation="horizontal">
 
         <TextView
@@ -33,12 +33,12 @@
             app:srcCompat="@drawable/outline_arrow_back_ios_black_24dp" />
 
         <ImageView
-            android:id="@+id/boardCurrent"
+            android:id="@+id/boardIcon"
             android:layout_width="45dp"
             android:layout_height="45dp"
             android:layout_marginTop="2dp"
             android:layout_weight="1"
-            app:srcCompat="@mipmap/ic_launcher" />
+            app:srcCompat="@mipmap/ic_main_foreground" />
 
         <ImageButton
             android:id="@+id/boardRight"

@@ -9,7 +9,7 @@
 
     <TextView
         android:id="@+id/mainBanner"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="#FF4646"
         android:ellipsize="marquee"
@@ -18,12 +18,13 @@
         android:paddingVertical="12dp"
         android:singleLine="true"
         android:textColor="@android:color/white"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <FrameLayout
         android:id="@+id/mainChangingFrame"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="#FFFFFF"
         app:layout_constraintBottom_toTopOf="@+id/bottomNavi"
