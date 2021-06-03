@@ -102,6 +102,7 @@ public class MainFragment extends Fragment {
         recyclerView.setAdapter(adapter);
         recyclerView.addItemDecoration(new RecyclerViewDecoration(0, 60));
         ObjectAnimator.ofFloat(recyclerView, "alpha", 0.0f, 1f).start();
+
         ((MainActivity)getActivity()).Excel(checkfirst,adapter);
 
         //setRecent(MainActivity.sharedPref.getInt("current",1));
@@ -295,15 +296,10 @@ public class MainFragment extends Fragment {
         wanteatbutton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                RestOptions options = RestOptions.builder()
-                        .addPath("personalize-test")
-                        .addHeader("userId",MainActivity.userId)
-                        .build();
+                ((MainActivity)getActivity()).Excel4(AmplifyApi.newSet,2);
                 AmplifyApi.PersonalizePOST(currentItem,MainActivity.userId);
-                Amplify.API.get("bab2",options, respond-> {
-                            AmplifyApi.PersonalizeGet(MainActivity.userId);
-                        }, error -> Log.e("PersonalizeGet", "Get failed.", error));
-
+                AmplifyApi.PersonalizeGet(MainActivity.userId);
+                ((MainActivity)getActivity()).Excel4(AmplifyApi.newSet,1);
                 AmplifyApi.RealTimeBestPost(currentItem,null,null);
                 AmplifyApi.RealTimeBestGet();
                 AmplifyApi.InteractionPost(currentItem,MainActivity.userId);
@@ -334,7 +330,6 @@ public class MainFragment extends Fragment {
                 //edit = (AutoCompleteTextView)view.findViewById(R.id.foodwritetext3);
                 //edit.setText("sex");
                 //edit.setAdapter(new ArrayAdapter<String>(getActivity(),android.R.layout.simple_dropdown_item_1line,items));
-                System.out.println("여기오나?");
             }
         });
 

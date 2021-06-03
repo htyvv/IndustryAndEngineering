@@ -453,9 +453,6 @@ public class AmplifyApi {
                     }catch (JSONException e) {
                         e.printStackTrace();
                     }
-
-
-
                 }
                 , error -> Log.e("PersonalizeGet", "Get failed.", error));
     }

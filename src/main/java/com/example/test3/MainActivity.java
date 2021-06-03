@@ -246,6 +246,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         historytext.setText("최근 먹은 기록 : " + historytextset);
+        System.out.println(AmplifyApi.newSet.get(0));
 
         dlg.setPositiveButton("확인", new DialogInterface.OnClickListener() {
             @Override
@@ -255,22 +256,28 @@ public class MainActivity extends AppCompatActivity {
                 String edit3text = null;
                 if(!edit1.getText().toString().equals("")){
                     edit1text = edit1.getText().toString();
+                    Excel4(AmplifyApi.newSet,2);
                     AmplifyApi.PersonalizePOST(edit1text,userId);
                     AmplifyApi.PersonalizeGet(userId);
+                    Excel4(AmplifyApi.newSet,1);
                     AmplifyApi.InteractionPost(edit1text,userId);
                     AmplifyApi.InteractionGet(userId);
                 }
                 if(!edit2.getText().toString().equals("")){
                     edit2text = edit2.getText().toString();
+                    Excel4(AmplifyApi.newSet,2);
                     AmplifyApi.PersonalizePOST(edit2text,userId);
                     AmplifyApi.PersonalizeGet(userId);
+                    Excel4(AmplifyApi.newSet,1);
                     AmplifyApi.InteractionPost(edit2text,userId);
                     AmplifyApi.InteractionGet(userId);
                 }
                 if(!edit3.getText().toString().equals("")){
                     edit3text = edit3.getText().toString();
+                    Excel4(AmplifyApi.newSet,2);
                     AmplifyApi.PersonalizePOST(edit3text,userId);
                     AmplifyApi.PersonalizeGet(userId);
+                    Excel4(AmplifyApi.newSet,1);
                     AmplifyApi.InteractionPost(edit3text,userId);
                     AmplifyApi.InteractionGet(userId);
                 }
@@ -410,6 +417,42 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         return resId;
+    }
+
+    public void Excel4(ArrayList<String> num, int a){
+        Workbook workbook = null;
+        Sheet sheet = null;
+        try {
+            InputStream inputStream = getBaseContext().getResources().getAssets().open("food2.xls");
+            workbook = Workbook.getWorkbook(inputStream);
+            sheet = workbook.getSheet(0);
+            //받아올 때 한글로 변환
+            if(a==1){
+                for(int k = 0;k<num.size();k++) {
+                    for (int i = 0; i < sheet.getRows(); i++) {
+                        if (sheet.getCell(0, i).getContents().equals(num.get(k))){
+                            num.set(k,sheet.getCell(1,k).getContents());
+                        }
+                        break;
+                    }
+                }
+            }
+            //보낼 때 숫자로 변환
+            else if(a==2){
+                for(int k = 0;k<num.size();k++) {
+                    for (int i = 0; i < sheet.getRows(); i++) {
+                        if (sheet.getCell(1, i).getContents().equals(num.get(k))){
+                            num.set(k,sheet.getCell(0,k).getContents());
+                        }
+                        break;
+                    }
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (BiffException e) {
+            e.printStackTrace();
+        }
     }
 
     public void BannerName(){

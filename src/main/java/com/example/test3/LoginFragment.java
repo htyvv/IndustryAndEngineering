@@ -134,7 +134,7 @@ public class LoginFragment extends Fragment {
                                 AmplifyApi.PersonalizeGet(MainActivity.userId);
                                 AmplifyApi.InteractionGet(MainActivity.userId);
                                 AmplifyApi.RealTimeBestGet();
-                                ArrayList<Integer> filterfirst = new ArrayList<>();
+                                ((MainActivity)getActivity()).Excel4(AmplifyApi.newSet,1);
 
 
                                 // 로그 출력 및 화면 전환
