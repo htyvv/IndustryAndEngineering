@@ -298,11 +298,19 @@ public class MainFragment extends Fragment {
             public void onClick(View v) {
                 ((MainActivity)getActivity()).Excel4(AmplifyApi.newSet,2);
                 AmplifyApi.PersonalizePOST(currentItem,MainActivity.userId);
-                AmplifyApi.PersonalizeGet(MainActivity.userId);
                 ((MainActivity)getActivity()).Excel4(AmplifyApi.newSet,1);
                 AmplifyApi.RealTimeBestPost(currentItem,null,null);
-                AmplifyApi.RealTimeBestGet();
                 AmplifyApi.InteractionPost(currentItem,MainActivity.userId);
+                try
+                {
+                    Thread.sleep(2000);
+                } catch (InterruptedException e)
+                {
+                    e.printStackTrace();
+                }
+                AmplifyApi.PersonalizeGet(MainActivity.userId);
+                ((MainActivity)getActivity()).Excel4(AmplifyApi.newSet,1);
+                AmplifyApi.RealTimeBestGet();
                 AmplifyApi.InteractionGet(MainActivity.userId);
 
                 ((MainActivity)getActivity()).Excel(checkfirst,adapter);

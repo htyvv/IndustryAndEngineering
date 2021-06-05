@@ -135,7 +135,7 @@ public class LoginFragment extends Fragment {
                                 AmplifyApi.InteractionGet(MainActivity.userId);
                                 AmplifyApi.RealTimeBestGet();
                                 ((MainActivity)getActivity()).Excel4(AmplifyApi.newSet,1);
-
+                                System.out.println(AmplifyApi.newSet.get(0));
 
                                 // 로그 출력 및 화면 전환
                                 Log.d("", "current userId = " + MainActivity.userId);

@@ -24,9 +24,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.amplifyframework.api.rest.RestOptions;
 import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin;
 import com.amplifyframework.core.Amplify;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.gson.JsonObject;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -47,6 +49,9 @@ public class MainActivity extends AppCompatActivity {
     TextView Price;
     ImageView foodpic;
     ArrayAdapter<String> arrayAdapter;
+    String edit1text = null;
+    String edit2text = null;
+    String edit3text = null;
 
     private FragmentManager manager;
     private FragmentTransaction transaction;
@@ -251,37 +256,38 @@ public class MainActivity extends AppCompatActivity {
         dlg.setPositiveButton("확인", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                String edit1text = null;
-                String edit2text = null;
-                String edit3text = null;
+
                 if(!edit1.getText().toString().equals("")){
                     edit1text = edit1.getText().toString();
                     Excel4(AmplifyApi.newSet,2);
                     AmplifyApi.PersonalizePOST(edit1text,userId);
-                    AmplifyApi.PersonalizeGet(userId);
                     Excel4(AmplifyApi.newSet,1);
                     AmplifyApi.InteractionPost(edit1text,userId);
-                    AmplifyApi.InteractionGet(userId);
                 }
                 if(!edit2.getText().toString().equals("")){
-                    edit2text = edit2.getText().toString();
+                    edit2text = edit1.getText().toString();
                     Excel4(AmplifyApi.newSet,2);
                     AmplifyApi.PersonalizePOST(edit2text,userId);
-                    AmplifyApi.PersonalizeGet(userId);
                     Excel4(AmplifyApi.newSet,1);
                     AmplifyApi.InteractionPost(edit2text,userId);
-                    AmplifyApi.InteractionGet(userId);
                 }
                 if(!edit3.getText().toString().equals("")){
-                    edit3text = edit3.getText().toString();
+                    edit3text = edit1.getText().toString();
                     Excel4(AmplifyApi.newSet,2);
                     AmplifyApi.PersonalizePOST(edit3text,userId);
-                    AmplifyApi.PersonalizeGet(userId);
                     Excel4(AmplifyApi.newSet,1);
                     AmplifyApi.InteractionPost(edit3text,userId);
-                    AmplifyApi.InteractionGet(userId);
                 }
-                System.out.println(edit1text);
+                try
+                {
+                    Thread.sleep(2000);
+                } catch (InterruptedException e)
+                {
+                    e.printStackTrace();
+                }
+                AmplifyApi.PersonalizeGet(userId);
+                Excel4(AmplifyApi.newSet,1);
+                AmplifyApi.InteractionGet(userId);
             }
         });
         dlg.setNegativeButton("취소", null);
@@ -310,6 +316,7 @@ public class MainActivity extends AppCompatActivity {
         testlist1.add(0); testlist2.add("BLT샌드위치"); testlist2.add("간짜장"); testlist2.add("김밥");
         testlist1 = aa;
         if(AmplifyApi.newSet!=null){
+            Excel4(AmplifyApi.newSet,1);
             testlist2 = AmplifyApi.newSet;
         }
         if(testlist1.size()!=0) {
@@ -371,13 +378,18 @@ public class MainActivity extends AppCompatActivity {
             Price = (TextView)findViewById(R.id.priceValueText);
             //foodpic = (FoodViewPagerAdapter)findViewById(R.id.foodviewPagerAdapter);
 
-            for(int i = 0;i<sheet.getRows();i++) {
+            for(int i = 1;i<sheet.getRows();i++) {
                 if(sheet.getCell(1,i).getContents().equals(String.valueOf(recent))){
-                    Carlorie.setText(sheet.getCell(6,i).getContents());
-                    Carbo.setText(sheet.getCell(9,i).getContents());
-                    Protein.setText(sheet.getCell(7,i).getContents());
-                    Fat.setText(sheet.getCell(8,i).getContents());
-                    Price.setText(sheet.getCell(4,i).getContents());
+                    String c1 = sheet.getCell(6,i).getContents() + "Kcal";
+                    String c2 = sheet.getCell(9,i).getContents() + "g";
+                    String c3 = sheet.getCell(7,i).getContents() + "g";
+                    String c4 = sheet.getCell(8,i).getContents() + "g";
+                    String c5 = sheet.getCell(4,i).getContents() + "g";
+                    Carlorie.setText(c1);
+                    Carbo.setText(c2);
+                    Protein.setText(c3);
+                    Fat.setText(c4);
+                    Price.setText(c5);
                     String name = "@drawable/fooddata" + sheet.getCell(0,i).getContents();
                     String packname = this.getPackageName();
                     System.out.println(name);
@@ -401,7 +413,7 @@ public class MainActivity extends AppCompatActivity {
             InputStream inputStream = getBaseContext().getResources().getAssets().open("food2.xls");
             workbook = Workbook.getWorkbook(inputStream);
             sheet = workbook.getSheet(0);
-            for(int i = 0;i<sheet.getRows();i++) {
+            for(int i = 1;i<sheet.getRows();i++) {
                 if(sheet.getCell(1,i).getContents().equals(name)){
                     String name2 = "@drawable/fooddata" + sheet.getCell(0,i).getContents();
                     String packname = this.getPackageName();
@@ -427,22 +439,26 @@ public class MainActivity extends AppCompatActivity {
             workbook = Workbook.getWorkbook(inputStream);
             sheet = workbook.getSheet(0);
             //받아올 때 한글로 변환
+            System.out.println("어레이 사이즈 : " + num.size());
             if(a==1){
                 for(int k = 0;k<num.size();k++) {
-                    for (int i = 0; i < sheet.getRows(); i++) {
+                    //System.out.println("어레이 사이즈 : " + num.size());
+                    for (int i = 1; i < sheet.getRows(); i++) {
                         if (sheet.getCell(0, i).getContents().equals(num.get(k))){
-                            num.set(k,sheet.getCell(1,k).getContents());
+                            //System.out.println("받아왔을 때 전 : " + num.get(k));
+                            num.set(k,sheet.getCell(1,i).getContents());
+                            //System.out.println("받아왔을 때 후 : " + num.get(k));
+                            break;
                         }
-                        break;
                     }
                 }
             }
             //보낼 때 숫자로 변환
             else if(a==2){
                 for(int k = 0;k<num.size();k++) {
-                    for (int i = 0; i < sheet.getRows(); i++) {
+                    for (int i = 1; i < sheet.getRows(); i++) {
                         if (sheet.getCell(1, i).getContents().equals(num.get(k))){
-                            num.set(k,sheet.getCell(0,k).getContents());
+                            num.set(k,sheet.getCell(0,i).getContents());
                         }
                         break;
                     }
