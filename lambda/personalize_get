@@ -1,32 +1,41 @@
 from boto3 import client
-personalize_cli = client('personalize-runtime')
+
 import json
 import os
 import time
 import datetime
-TRACKING_ID =os.environ['TRACKING_ID']
 
+CAMPAIGN_ARN =os.environ['CAMPAIGN_ARN']
+SECRET_ACCESS_KEY =os.environ['SECRET_ACCESS_KEY']
+ACCESS_KEY =os.environ['ACCESS_KEY']
+
+#personalize_cli = client('personalize-runtime')
+personalize_cli = client('personalize-runtime', region_name='us-east-1',
+         aws_access_key_id=ACCESS_KEY,
+         aws_secret_access_key=SECRET_ACCESS_KEY)
 
 
 def lambda_handler(event, context):
-    payload = json.loads(event['body'])
-    #payload = event['body']
-    
-    put_client = client('personalize-events', region_name='ap-northeast-2')
-    response = put_client.put_events(
-    trackingId=TRACKING_ID,
-    sessionId=payload['userId'],#session,
-    userId=payload['userId'],
-    eventList=[
-        {
-            'eventType': "Interactions",
-            'properties': "{\"itemId\": \""+payload['itemId']+"\"}",
-            'sentAt': datetime.datetime.now().timestamp()
-        },
-        ]
-    )
-    return {'statusCode': '200', 'body': json.dumps('sucess')}
-    
+    #return {'statusCode': '200', 'body': json.dumps(event['headers']['userId'])}
+    try:
+        response = personalize_cli.get_recommendations(
+            campaignArn=CAMPAIGN_ARN,
+            userId=str(event['headers']['userid']),
+            # numResults=123,
+            # filterArn = 'string',
+            # context=payload['context']
+            )
+        print(f"RawRecommendations = {response['itemList']}")
+        #print(f"result={json.dumps(response)}")
+        return {'statusCode': '200', 'body': json.dumps(response,ensure_ascii=False)}
+    except personalize_cli.exceptions.ResourceNotFoundException as e:
+        #print(f"Personalize Error: {e}")
+        return {'statusCode': '500', 'body': json.dumps("Campaign Not Found")}
+    except personalize_cli.exceptions.InvalidInputException as e:
+        #print(f"Invalid Input Error: {e}")
+        return {'statusCode': '400', 'body': json.dumps("Invalid Input")}
+    except KeyError as e:
+        #print(f"Key Error: {e}")
+        return {'statusCode': '400', 'body': json.dumps("Key Error")}
         
-    
-        
+   
