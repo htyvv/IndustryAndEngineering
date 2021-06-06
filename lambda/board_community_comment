@@ -189,6 +189,5 @@ module.exports.handler = (event, context, callback) => {
                           'statusCode': 500,
                           'body': 'Unrecognized operation '+ operation
                           });
-            //callback(new Error(`Unrecognized operation "${operation}"`));
     }
 };
