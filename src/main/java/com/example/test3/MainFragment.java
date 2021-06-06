@@ -326,6 +326,7 @@ public class MainFragment extends Fragment {
                 AmplifyApi.RealTimeBestGet();
                 AmplifyApi.InteractionGet(MainActivity.userId);
 
+                ((MainActivity)getActivity()).BannerName();
                 recyclerView.smoothScrollToPosition(0);
 
                 //((MainActivity)getActivity()).Excel(checkfirst,adapter);
