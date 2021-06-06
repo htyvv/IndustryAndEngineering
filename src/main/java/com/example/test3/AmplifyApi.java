@@ -1,6 +1,8 @@
 package com.example.test3;
 
 import android.app.Activity;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 
 
@@ -544,6 +546,51 @@ public class AmplifyApi {
                         }
                     }
                 });
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }, error -> Log.e("recommend-board", "Get failed.", error));
+    }
+
+
+    // 추천 게시판의 이미지 가져오기
+    public static void RecommendBoardGet(FoodViewPagerAdapter foodviewPagerAdapter, Activity activity, int pageNum, String tag){
+        // tag: 태그로 검색할 때 인자
+        HashMap<String,String> queryMap = new HashMap<>();
+        queryMap.put("pageNum",String.valueOf(pageNum));
+
+        RestOptions.Builder optionsBuilder = RestOptions.builder();
+        optionsBuilder = optionsBuilder.addPath("recommend-board");
+        optionsBuilder = optionsBuilder.addQueryParameters(queryMap);
+
+        HashMap<String,String> tagMap = new HashMap<>();
+        if(tag != null) {
+            tagMap.put("tag", tag);
+            optionsBuilder = optionsBuilder.addQueryParameters(tagMap);
+        }
+        RestOptions options = optionsBuilder.build();
+
+        Log.d("recommend-board","Get:" + tag);
+
+        Amplify.API.get("bab2", options, respond->{
+            try {
+                Log.d("recommend-board","Get:" + respond.getData().asString());
+                JSONObject result = new JSONObject(respond.getData().asString());
+
+                Log.d("recommend-board","Get:" + result.get("boardlist"));
+                // result = new JSONArray(respond.getData().asString());
+
+                ArrayList<Data> dataArrayList = DataUtil.JsonArrayToRecoDataArray((JSONArray) result.get("boardlist"));
+
+                activity.runOnUiThread(new Runnable(){
+                    @Override
+                    public void run() {
+                        foodviewPagerAdapter.setValue(dataArrayList);
+                    }
+                });
+
+                //MainActivity.modifyComplete = true;
 
             } catch (JSONException e) {
                 e.printStackTrace();

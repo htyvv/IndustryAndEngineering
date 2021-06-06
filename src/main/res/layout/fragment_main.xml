@@ -42,8 +42,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
                     android:drawableLeft="@mipmap/ic_main"
-                    android:gravity="center"
                     android:text="nickname님을 위한  \n오늘의 추천 음식!  "
+                    android:gravity="center"
                     android:textAlignment="center"
                     android:textSize="24sp"
                     android:textStyle="bold"
@@ -136,7 +136,7 @@
                             android:layout_marginEnd="10dp"
                             android:layout_marginBottom="5dp"
                             android:gravity="center"
-                            android:text="Recent"
+                            android:text="음식 이름"
                             android:textAlignment="center"
                             android:textSize="30dp"
                             app:layout_constraintBottom_toTopOf="@+id/iwanttoeat"
@@ -176,7 +176,8 @@
                             android:layout_marginBottom="10dp"
                             android:background="@drawable/edit_round"
                             android:text="먹을래요!"
-                            android:textSize="10dp"
+                            android:textSize="10sp"
+                            android:textStyle="bold"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent" />
 
@@ -195,17 +196,68 @@
                         app:layout_constraintTop_toBottomOf="@+id/itemLayout"
                         tools:visibility="visible">
 
-                        <androidx.viewpager2.widget.ViewPager2
-                            android:id="@+id/foodViewPager"
-                            android:layout_width="282dp"
-                            android:layout_height="300dp"
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/infoImageLayout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
                             android:layout_marginStart="20dp"
                             android:layout_marginTop="20dp"
                             android:layout_marginEnd="20dp"
-                            android:background="#FFFFFF"
+                            android:background="@drawable/layout_borderline"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                android:id="@+id/infoTitleLayout"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_marginTop="20dp"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent">
+
+                                <TextView
+                                    android:id="@+id/infoTitle"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:text="먹어볼까?"
+                                    android:textAlignment="center"
+                                    android:textSize="24sp"
+                                    android:textStyle="bold"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent" />
+
+                                <TextView
+                                    android:id="@+id/infoTitle2"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="사진을 누르면 추천글을 볼 수 있어요!"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toBottomOf="@+id/infoTitle" />
+                            </androidx.constraintlayout.widget.ConstraintLayout>
+
+                            <androidx.viewpager2.widget.ViewPager2
+                                android:id="@+id/foodViewPager"
+                                android:layout_width="282dp"
+                                android:layout_height="300dp"
+                                android:layout_marginTop="10dp"
+                                android:layout_marginBottom="20dp"
+                                android:background="#FFFFFF"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/infoTitleLayout">
+
+                            </androidx.viewpager2.widget.ViewPager2>
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
 
                         <TableLayout
                             android:id="@+id/nutrimentLayout"
@@ -220,7 +272,7 @@
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintHorizontal_bias="0.0"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/foodViewPager"
+                            app:layout_constraintTop_toBottomOf="@+id/infoImageLayout"
                             app:layout_constraintVertical_bias="1.0">
 
                             <TableRow

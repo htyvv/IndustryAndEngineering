@@ -91,7 +91,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:entries="@array/검색" />
+            android:entries="@array/일반검색" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/searchInputLayout"

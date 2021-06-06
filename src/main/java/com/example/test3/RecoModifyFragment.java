@@ -255,9 +255,10 @@ public class RecoModifyFragment extends Fragment { // 10
                         if (!recoModifyTagInput.getText().toString().equals("")) {
                             if (tagCount < 5) {
                                 tag = tag + "#" + recoModifyTagInput.getText().toString().replace("\n", "") + " ";
-                                recoModifyTagInput.setText(tag);
+                                recoModifyTagResult.setText(tag);
                                 recoModifyTagInput.setText(null);
                                 tagCount++;
+                                Log.d("RecoModifyFragment", "[tagAdd-Enter] tagCount = " + tagCount);
                             } else {
                                 recoModifyTagInput.setText(null);
                                 Toast.makeText(getContext(), "태그는 5개까지만 가능합니다.", Toast.LENGTH_LONG).show();
@@ -272,7 +273,19 @@ public class RecoModifyFragment extends Fragment { // 10
 
         // recoModifyTagResult
         recoModifyTagResult = binding.recoModifyTagResult;
-        recoModifyTagResult.setText(null);
+        tag = MainActivity.modifyTag;
+        recoModifyTagResult.setText(tag);
+        String tagParsing = tag;
+        int tags = tagParsing.lastIndexOf("#");
+        if (tags != -1) {
+            while (tags != -1) {
+                tagParsing = tagParsing.substring(0, tags);
+                tagCount++;
+                Log.d("RecoModifyFragment", "[tagParsing] tagCount = " + tagCount);
+
+                tags = tagParsing.lastIndexOf("#");
+            }
+        }
 
 
         // recoModifyTagAdd
@@ -286,6 +299,7 @@ public class RecoModifyFragment extends Fragment { // 10
                         recoModifyTagResult.setText(tag);
                         recoModifyTagInput.setText(null);
                         tagCount++;
+                        Log.d("RecoModifyFragment", "[tagAdd] tagCount = " + tagCount);
                     } else {
                         recoModifyTagInput.setText(null);
                         Toast.makeText(getContext(), "태그는 5개까지만 가능합니다.", Toast.LENGTH_LONG).show();
@@ -302,9 +316,12 @@ public class RecoModifyFragment extends Fragment { // 10
             public void onClick(View v) {
                 if (tagCount > 0) {
                     int lastTag = tag.lastIndexOf("#");
-                    tag = tag.substring(0, lastTag);
-                    recoModifyTagResult.setText(tag);
-                    tagCount--;
+                    if (lastTag != -1) {
+                        tag = tag.substring(0, lastTag);
+                        recoModifyTagResult.setText(tag);
+                        tagCount--;
+                        Log.d("RecoModifyFragment", "[tagRemove] tagCount = " + tagCount);
+                    }
                 }
             }
         });

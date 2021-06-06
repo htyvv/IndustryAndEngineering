@@ -134,6 +134,16 @@ public class LoginFragment extends Fragment {
                                 AmplifyApi.PersonalizeGet(MainActivity.userId);
                                 AmplifyApi.InteractionGet(MainActivity.userId);
                                 AmplifyApi.RealTimeBestGet();
+                                
+                                // Personalize 안될때 쓸 것
+                                /*
+                                if (AmplifyApi.newSet == null) {
+                                    AmplifyApi.newSet = new ArrayList<>();
+                                    AmplifyApi.newSet.add("1");
+                                    AmplifyApi.newSet.add("2");
+                                }
+                                 */
+
                                 ((MainActivity)getActivity()).Excel4(AmplifyApi.newSet,1);
                                 System.out.println(AmplifyApi.newSet.get(0));
 

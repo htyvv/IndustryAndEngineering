@@ -82,6 +82,7 @@ public class MainActivity extends AppCompatActivity {
     static int reco_maxPage = 1;
     static int boardId;
     static int recoboardId;
+    static int previousPage = 3;
 
     static String modifyTitle = "";
     static String modifyContent = "";
@@ -378,7 +379,22 @@ public class MainActivity extends AppCompatActivity {
             Price = (TextView)findViewById(R.id.priceValueText);
             //foodpic = (FoodViewPagerAdapter)findViewById(R.id.foodviewPagerAdapter);
 
-            for(int i = 1;i<sheet.getRows();i++) {
+            AmplifyApi.RecommendBoardGet(foodviewPagerAdapter, this,0, recent);
+            /*
+            while (!MainActivity.modifyComplete) {
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            MainActivity.modifyComplete = false;
+
+            */
+
+
+            for(int i = 1; i < sheet.getRows(); i++) {
                 if(sheet.getCell(1,i).getContents().equals(String.valueOf(recent))){
                     String c1 = sheet.getCell(6,i).getContents() + "Kcal";
                     String c2 = sheet.getCell(9,i).getContents() + "g";
@@ -390,11 +406,11 @@ public class MainActivity extends AppCompatActivity {
                     Protein.setText(c3);
                     Fat.setText(c4);
                     Price.setText(c5);
-                    String name = "@drawable/fooddata" + sheet.getCell(0,i).getContents();
+                    String name = "@drawable/fooddata" + sheet.getCell(0, i).getContents();
                     String packname = this.getPackageName();
                     System.out.println(name);
-                    int resId = getResources().getIdentifier(name,"drawable",packname);
-                    foodviewPagerAdapter.imageadd(resId);
+
+                    //int resId = getResources().getIdentifier(name,"drawable", packname);
                     break;
                 }
             }

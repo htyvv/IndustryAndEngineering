@@ -312,9 +312,11 @@ public class RecoPostFragment extends Fragment { // 9
             public void onClick(View v) {
                 if (tagCount > 0) {
                     int lastTag = tag.lastIndexOf("#");
-                    tag = tag.substring(0, lastTag);
-                    recoPostTagResult.setText(tag);
-                    tagCount--;
+                    if (lastTag != -1) {
+                        tag = tag.substring(0, lastTag);
+                        recoPostTagResult.setText(tag);
+                        tagCount--;
+                    }
                 }
             }
         });

@@ -69,7 +69,7 @@ public class MainFragment extends Fragment {
 
     ViewPager2 foodViewPager;
     FoodViewPagerAdapter foodViewPagerAdapter;
-    int currentPage = 0;
+    int currentPage = -1;
     String currentItem;
     Timer timer;
     final long DELAY_MS = 500;
@@ -249,8 +249,8 @@ public class MainFragment extends Fragment {
         closeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ConstraintLayout selectedLayout = binding.selectedLayout;
-                selectedLayout.setVisibility(View.GONE);
+                binding.infoLayout.setVisibility(View.GONE);
+                binding.selectedLayout.setVisibility(View.GONE);
             }
         });
 
@@ -261,11 +261,11 @@ public class MainFragment extends Fragment {
         foodViewPagerAdapter = new FoodViewPagerAdapter(this);
         foodViewPager.setAdapter(foodViewPagerAdapter);
 
-        foodViewPager.setOnDragListener(new View.OnDragListener() {
-            @Override
-            public boolean onDrag(View v, DragEvent event) {
-                Log.d("tag", "안뇽");
-                return false;
+        foodViewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+            public void onPageSelected (int position) {
+                super.onPageSelected(position);
+                currentPage = position;
+                Log.d("MainFragment", "[foodViewPager] currentPage = " + currentPage);
             }
         });
 
@@ -274,10 +274,10 @@ public class MainFragment extends Fragment {
             @Override
             public void run() {
                 if (currentPage == foodViewPagerAdapter.getItemCount()) {
-                    currentPage = 0;
+                    currentPage = -1;
                 }
 
-                foodViewPager.setCurrentItem(currentPage++, true);
+                foodViewPager.setCurrentItem(++currentPage, true);
             }
         };
 
@@ -482,8 +482,9 @@ public class MainFragment extends Fragment {
 
         //todo 리사이클러 뷰에서 아이템을 선택하면 recent에 선택된 음식을 띄우고, 아래에는 상세정보
         binding.selectedLayout.setVisibility(View.VISIBLE);
-        binding.recent.setText(String.valueOf(recent));
-        ((MainActivity)getActivity()).Excel2(recent, foodViewPagerAdapter);
+        //binding.recent.setText(String.valueOf(recent));
+        binding.recent.setText(recent);
+        ((MainActivity) getActivity()).Excel2(recent, foodViewPagerAdapter);
         currentItem = recent;
     }
 

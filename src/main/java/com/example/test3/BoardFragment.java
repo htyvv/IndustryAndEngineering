@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -206,6 +207,38 @@ public class BoardFragment extends Fragment {
 
         // searchInputEditText
         searchInputEditText = view.findViewById(R.id.searchInputEditText);
+        searchInputEditText.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                switch (keyCode) {
+                    case KeyEvent.KEYCODE_ENTER:
+                        searchText = searchInputEditText.getText().toString().replace("\n", "");
+
+                        if (searching == 1) {
+                            if (searchText.equals("")) { // 제목 검색
+                                AmplifyApi.Get(adapter, getActivity(), 0, null, null, false);
+                                currentPage = 1;
+                            } else {
+                                AmplifyApi.Get(adapter, getActivity(), 0, null, searchText, false);
+                                currentPage = 1;
+                            }
+                        } else if (searching == 2) { // 닉네임 검색
+                            if (searchText.equals("")) {
+                                AmplifyApi.Get(adapter, getActivity(), 0, null, null, false);
+                                currentPage = 1;
+                            } else {
+                                AmplifyApi.Get(adapter, getActivity(), 0, searchText, null, false);
+                                currentPage = 1;
+                            }
+                        }
+
+                        searchInputEditText.setText(null);
+                        break;
+                }
+
+                return true;
+            }
+        });
 
         // boardFind
         boardFind = view.findViewById(R.id.boardFind);

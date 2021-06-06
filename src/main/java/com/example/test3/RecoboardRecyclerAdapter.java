@@ -143,6 +143,7 @@ public class RecoboardRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.
                 public void onClick(View view) {
                     //TODO: 누르면 그 글의 데이터를 받아와서 setFrag(새로만든읽기); -> Fragment생성때 받아갈 데이터를 여기서 전송해줘야 함
                     MainActivity.recoboardId = recoboardId;
+                    MainActivity.previousPage = 3;
                     ((MainActivity) parentFragment.getActivity()).setFrag(11);
                 }
             });

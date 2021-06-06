@@ -213,7 +213,7 @@ public class RecoReadFragment extends Fragment { // 11
         recoReadBackButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((MainActivity) getActivity()).setFrag(3);
+                ((MainActivity) getActivity()).setFrag(MainActivity.previousPage);
             }
         });
 
@@ -254,6 +254,7 @@ public class RecoReadFragment extends Fragment { // 11
         // 글 수정을 위해 저장
         MainActivity.modifyTitle = data.getTitle();
         MainActivity.modifyContent = data.getContent();
+        MainActivity.modifyTag = data.getTag();
 
 
         // 본인이면 수정, 삭제 레이아웃 보임

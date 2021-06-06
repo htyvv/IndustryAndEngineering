@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -198,6 +199,46 @@ public class RecoboardFragment extends Fragment {
 
         // recoSearchInputEditText
         recoSearchInputEditText = view.findViewById(R.id.recoSearchInputEditText);
+        recoSearchInputEditText.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                switch (keyCode) {
+                    case KeyEvent.KEYCODE_ENTER:
+                        recoSearchText = recoSearchInputEditText.getText().toString().replace("\n", "");
+
+                        if (searching == 1) {
+                            if (recoSearchText.equals("")) { // 제목 검색
+                                AmplifyApi.RecommendBoardGet(recoAdapter, getActivity(), 0, null, null, null, false);
+                                currentPage = 1;
+                            } else {
+                                AmplifyApi.RecommendBoardGet(recoAdapter, getActivity(), 0, null, recoSearchText, null, false);
+                                currentPage = 1;
+                            }
+                        } else if (searching == 2) { // 닉네임 검색
+                            if (recoSearchText.equals("")) {
+                                AmplifyApi.RecommendBoardGet(recoAdapter, getActivity(), 0, null, null, null, false);
+                                currentPage = 1;
+                            } else {
+                                AmplifyApi.RecommendBoardGet(recoAdapter, getActivity(), 0, recoSearchText, null, null, false);
+                                currentPage = 1;
+                            }
+                        } else if (searching == 3) { // 태그 검색
+                            if (recoSearchText.equals("")) {
+                                AmplifyApi.RecommendBoardGet(recoAdapter, getActivity(), 0, null, null, null, false);
+                                currentPage = 1;
+                            } else {
+                                AmplifyApi.RecommendBoardGet(recoAdapter, getActivity(), 0, null, null, recoSearchText, false);
+                                currentPage = 1;
+                            }
+                        }
+
+                        recoSearchInputEditText.setText(null);
+                        break;
+                }
+
+                return true;
+            }
+        });
 
         // recoboardFind
         recoboardFind = view.findViewById(R.id.recoboardFind);

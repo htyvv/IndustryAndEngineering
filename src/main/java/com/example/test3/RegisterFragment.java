@@ -36,6 +36,7 @@ public class RegisterFragment extends Fragment {
     private FragmentRegisterBinding binding;
 
     RegisterFragment currentFragment;
+    Bundle bundle = new Bundle();
 
     EditText registerID;
     EditText registerEmail;
@@ -105,6 +106,7 @@ public class RegisterFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 DialogFragment newFragment = new DatePickerFragment(currentFragment);
+                newFragment.setArguments(bundle);
                 newFragment.show(getActivity().getSupportFragmentManager(),"datePicker");
             }
         });
@@ -198,6 +200,9 @@ public class RegisterFragment extends Fragment {
         else day_string = Integer.toString(day);
 
         String dateMessage = (year_string + "/" + month_string + "/" + day_string);
+        bundle.putInt("s_year", Integer.parseInt(year_string));
+        bundle.putInt("s_month", Integer.parseInt(month_string));
+        bundle.putInt("s_day", Integer.parseInt(day_string));
 
         registerBirth.setText(dateMessage);
     }

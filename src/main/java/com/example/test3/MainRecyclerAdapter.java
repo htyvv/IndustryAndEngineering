@@ -10,6 +10,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.test3.databinding.FragmentMainBinding;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -95,11 +97,9 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-
                     parentFragment.setRecent(mNumberView.getText().toString());
                     //parentFragment.PersonalizePOST(Integer.parseInt(mNumberView.getText().toString()));
                     //setValueReset();
-
                 }
             });
         }
