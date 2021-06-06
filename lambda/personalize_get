@@ -1,0 +1,32 @@
+from boto3 import client
+personalize_cli = client('personalize-runtime')
+import json
+import os
+import time
+import datetime
+TRACKING_ID =os.environ['TRACKING_ID']
+
+
+
+def lambda_handler(event, context):
+    payload = json.loads(event['body'])
+    #payload = event['body']
+    
+    put_client = client('personalize-events', region_name='ap-northeast-2')
+    response = put_client.put_events(
+    trackingId=TRACKING_ID,
+    sessionId=payload['userId'],#session,
+    userId=payload['userId'],
+    eventList=[
+        {
+            'eventType': "Interactions",
+            'properties': "{\"itemId\": \""+payload['itemId']+"\"}",
+            'sentAt': datetime.datetime.now().timestamp()
+        },
+        ]
+    )
+    return {'statusCode': '200', 'body': json.dumps('sucess')}
+    
+        
+    
+        
