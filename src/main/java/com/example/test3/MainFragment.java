@@ -1,6 +1,7 @@
 package com.example.test3;
 
 import android.animation.ObjectAnimator;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -56,7 +57,7 @@ public class MainFragment extends Fragment {
     DrawerLayout drawerLayout;
 
     RecyclerView recyclerView;
-    MainRecyclerAdapter adapter;
+    static MainRecyclerAdapter adapter;
 
     ImageButton setting;
     ImageButton filter;
@@ -322,11 +323,12 @@ public class MainFragment extends Fragment {
                 MainActivity.modifyComplete = false;
 
                 AmplifyApi.PersonalizeGet(adapter, getActivity(), MainActivity.userId);
-                //((MainActivity)getActivity()).Excel4(AmplifyApi.newSet,1);
                 AmplifyApi.RealTimeBestGet();
                 AmplifyApi.InteractionGet(MainActivity.userId);
 
-                ((MainActivity)getActivity()).Excel(checkfirst,adapter);
+                recyclerView.smoothScrollToPosition(0);
+
+                //((MainActivity)getActivity()).Excel(checkfirst,adapter);
                 //setRecent(MainActivity.sharedPref.getInt("current",1));
                 //PersonalizePOST(-99);
                 //recyclerView.addItemDecoration(new TempRecyclerDecoration(25,25));
@@ -499,10 +501,6 @@ public class MainFragment extends Fragment {
         binding.recent.setText(recent);
         ((MainActivity) getActivity()).Excel2(recent, foodViewPagerAdapter);
         currentItem = recent;
-    }
-
-    public void getPersonalize() {
-        AmplifyApi.PersonalizeGet(adapter, getActivity(), MainActivity.userId);
     }
 
     public int ggum(String name){

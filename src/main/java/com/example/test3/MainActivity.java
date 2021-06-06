@@ -136,7 +136,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         // fragment_main 추가
-        //mainFragment = new MainFragment();
+        mainFragment = new MainFragment();
 
         // fragment_board 추가
         //boardFragment = new BoardFragment();
@@ -289,9 +289,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 MainActivity.modifyComplete = false;
 
-                //AmplifyApi.PersonalizeGet(MainActivity.this, userId);
-                mainFragment.getPersonalize();
-                //Excel4(AmplifyApi.newSet,1);
+                AmplifyApi.PersonalizeGet(MainFragment.adapter,MainActivity.this, userId);
                 AmplifyApi.InteractionGet(userId);
             }
         });
@@ -493,9 +491,5 @@ public class MainActivity extends AppCompatActivity {
 
     public void BannerName(){
         list_excel.setText("현재 가장 인기 음식 : " + AmplifyApi.newRealtimeSet.get(0));
-    }
-
-    public void getPersonalize() {
-        mainFragment.getPersonalize();
     }
 }
