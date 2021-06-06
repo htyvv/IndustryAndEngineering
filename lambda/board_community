@@ -100,7 +100,7 @@ module.exports.handler = (event, context, callback) => {
                     if (event.queryStringParameters.content) {
                         query.content = {
                             $regex: event.queryStringParameters.content,
-                            $option: 'i'
+                            $options: 'i'
                         };
     
                     } 
