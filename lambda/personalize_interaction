@@ -1,0 +1,176 @@
+"use strict";
+const mongoose = require('mongoose');
+
+const MONGODB_URI = process.env.MONGODB_URI;
+
+/* 하나의 연결 객체를 반복적으로 사용합니다. */
+let connection = null;
+const connect = () => {
+    if (connection && mongoose.connection.readyState === 1) return Promise.resolve(connection);
+    return mongoose.connect(process.env.MONGODB_URI, {
+            useNewUrlParser: true
+        })
+        .then(conn => {
+
+            connection = conn;
+            return connection;
+        });
+};
+
+
+/* Board 오브젝트를 정의합니다. */
+const userSchema = mongoose.Schema({
+    _id: {
+        type: String,
+        required: true
+    },
+    birthdate: {
+        type: String,
+        required: true
+    },
+    gender: {
+        type: String,
+        required: true
+    },
+    email: {
+        type: String,
+        required: true
+    },
+    date: {
+        type: Date,
+        required: true
+    },
+    interection: [{
+        item_id: {
+            type: String,
+            required: true
+        },
+        date: {
+            type: Date,
+            required: true
+        }
+    }]
+});
+
+const interactionSchema = mongoose.Schema({
+    item_id: {
+        type: String,
+        required: true
+    },
+    birthdate: {
+        type: String,
+        required: true
+    },
+    gender: {
+        type: String,
+        required: true
+    },
+    date: {
+        type: Date,
+        required: true
+    }
+    
+});
+
+module.exports.handler = (event, context, callback) => {
+    context.callbackWaitsForEmptyEventLoop =false;
+    let Best = mongoose.model('real_time_best', interactionSchema);
+
+    let User = mongoose.model('user', userSchema);
+    let body=JSON.parse(event.body);
+    let operation = event.httpMethod;
+
+    switch (operation) {
+        case 'GET':
+            connect().then(() => {
+                if (event.headers.user_id) {
+                    connect().then(() => User.findOne({
+                            _id: event.headers.user_id
+                        })
+                        .select("-_id interection")
+                        .exec(function (err, interection) {
+                            if(err){
+                                callback(null, {
+                                        statusCode: 500,
+                                        body: JSON.stringify(err),
+                                    });
+                            }
+                            else{
+                                callback(null, {
+                                            statusCode: 200,
+                                            body: JSON.stringify(interection),
+                                        });
+                            }
+                           
+                            
+                            
+                        }));
+                   
+        
+                } else {
+                  callback(null, {
+                                statusCode: 500,
+                                body: JSON.stringify("id need"),
+                            });
+        
+        
+                }
+            });
+            break;
+        case 'POST':
+            connect().then(() => {
+                if (body.user_id) {
+                    connect().then(() => User.findOne({
+                            _id: body.user_id
+                        }).exec(function (err, user) {
+                            if(err){
+                                callback(null, {
+                                        statusCode: 500,
+                                        body: JSON.stringify(err),
+                                    });
+                            }
+                            const newInterection = ({
+                                "item_id": body.item_id
+                            });
+                            newInterection.date = new Date();
+                            
+                            user.interection.push(newInterection);
+                            user.save(function(err, user) {
+                                if (err) {
+                                    callback(null, {
+                                        statusCode: 500,
+                                        body: JSON.stringify(err),
+                                    });
+                
+                
+                                } else {
+
+                                      callback(null, {
+                                        statusCode: 200,
+                                        body: JSON.stringify(user),
+                                    });
+                
+                                }
+                            });
+                            
+                            
+                        }));
+                   
+        
+                } else {
+                  callback(null, {
+                                statusCode: 500,
+                                body: JSON.stringify("id need"),
+                            });
+        
+        
+                }
+            });
+            break;
+            
+            
+    }
+
+
+
+};

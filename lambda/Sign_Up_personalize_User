@@ -1,0 +1,54 @@
+import json
+import boto3
+import os
+
+import time
+import datetime
+
+personalize_events = boto3.client(service_name='personalize-events')
+DATASET_ARN =os.environ['DATASET_ARN']
+
+
+def lambda_handler(event, context):
+    # TODO implement
+    
+    age=event['request']['userAttributes']['birthdate']
+    age=datetime.datetime.strptime(age,'%Y/%m/%d')
+    now=datetime.datetime.now()
+    age=now.year-age.year
+    if age<20:
+        age=10
+    elif age<30:
+        age=20
+    elif age<40:
+        age=30
+    elif age<50:
+        age=40
+    elif age<60:
+        age=50
+    elif age<70:
+        age=60
+    elif age<80:
+        age=70
+    elif age<90:
+        age=80
+    else:
+        age=90
+    
+    sex=event['request']['userAttributes']['gender']
+    if sex=='male':
+        sex='M'
+    elif sex=='female':
+        sex='F'
+    
+    
+    
+    personalize_events.put_users(
+    datasetArn = DATASET_ARN,
+    
+    users = [{
+        'userId': event['request']['userAttributes']['sub'],
+        'properties': "{\"agegroup\": "+str(age)+",\"gender\": \""+sex+"\"}"   
+        }]
+    )
+    return event

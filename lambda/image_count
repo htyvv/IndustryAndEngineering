@@ -1,0 +1,62 @@
+"use strict";
+const mongoose = require('mongoose');
+
+const MONGODB_URI = process.env.MONGODB_URI;
+
+/* 하나의 연결 객체를 반복적으로 사용합니다. */
+let connection = null;
+const connect = () => {
+    if (connection && mongoose.connection.readyState === 1) return Promise.resolve(connection);
+    return mongoose.connect(process.env.MONGODB_URI, {
+        useNewUrlParser: true
+    }, {useUnifiedTopology: true})
+        .then(conn => {
+            connection = conn;
+            return connection;
+        });
+};
+
+
+/* Board 오브젝트를 정의합니다. */
+const boardSchema = mongoose.Schema({
+    count: {
+        type: Number,
+        required: true
+    }
+});
+
+
+
+
+module.exports.handler = (event, context, callback) => {
+    context.callbackWaitsForEmptyEventLoop =false;
+
+    let Board = mongoose.model('image_count', boardSchema);
+                connect().then(() => {
+                Board.findOneAndUpdate(
+                    {_id:"60b4c59330c8f10008a31265"},
+                {$inc: {count:1}}, {
+                  new: true
+                  }
+                ).exec(function (err, board) {
+                    if (err) {
+                                callback(null, {
+                                    'statusCode': 500,
+                                    'body': JSON.stringify(err)
+                                });
+                            } else {
+                                callback(null, {
+                                    'statusCode': 200,
+                                    'body': JSON.stringify(board)
+                                });
+                            }
+                });
+                
+                }
+                
+                );
+                
+                    
+
+            
+};

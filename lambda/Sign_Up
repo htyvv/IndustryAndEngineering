@@ -1,0 +1,93 @@
+"use strict";
+const mongoose = require('mongoose');
+
+const MONGODB_URI = process.env.MONGODB_URI;
+
+/* 하나의 연결 객체를 반복적으로 사용합니다. */
+let connection = null;
+const connect = () => {
+    if (connection && mongoose.connection.readyState === 1) return Promise.resolve(connection);
+    return mongoose.connect(process.env.MONGODB_URI, {
+            useNewUrlParser: true
+        })
+        .then(conn => {
+
+            connection = conn;
+            return connection;
+        });
+};
+
+
+/* Board 오브젝트를 정의합니다. */
+const userSchema = mongoose.Schema({
+    _id: {
+        type: String,
+        required: true
+    },
+    birthdate: {
+        type: String,
+        required: true
+    },
+    gender: {
+        type: String,
+        required: true
+    },
+    email: {
+        type: String,
+        required: true
+    },
+    date: {
+        type: Date,
+        required: true
+    },
+    interection: [{
+        item_id: {
+            type: String,
+            required: true
+        },
+        date: {
+            type: Date,
+            required: true
+        }
+    }]
+});
+
+
+module.exports.handler = (event, context) => {
+    let operation = event.httpMethod;
+
+    let User = mongoose.model('user', userSchema);
+    
+    
+
+    connect().then(() => {
+        if (event.request.userAttributes.sub) {
+            const newUser = new User({
+                "_id": event.request.userAttributes.sub,
+                "birthdate": event.request.userAttributes.birthdate,
+                "gender": event.request.userAttributes.gender,
+                "email": event.request.userAttributes.email
+            });
+            newUser.date = new Date();
+
+            newUser.save(function(err, board) {
+                if (err) {
+                          context.done(err, event);
+
+
+                } else {
+                     context.done(null, event);
+
+                }
+            });
+
+        } else {
+           context.done("sub need", event);
+
+
+        }
+    });
+
+
+
+};

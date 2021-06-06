@@ -1,0 +1,146 @@
+"use strict";
+const mongoose = require('mongoose');
+const autoIncrement = require('mongoose-auto-increment');
+
+const MONGODB_URI = process.env.MONGODB_URI;
+
+/* 하나의 연결 객체를 반복적으로 사용합니다. */
+let connection = null;
+const connect = () => {
+    if (connection && mongoose.connection.readyState === 1) return Promise.resolve(connection);
+    return mongoose.connect(process.env.MONGODB_URI, {
+            useNewUrlParser: true
+        })
+        .then(conn => {
+
+            connection = conn;
+            return connection;
+        });
+};
+
+
+
+const interactionSchema = mongoose.Schema({
+    item_id: {
+        type: String,
+        required: true
+    },
+    birthdate: {
+        type: String,
+        required: false
+    },
+    gender: {
+        type: String,
+        required: false
+    },
+    date: {
+        type: Date,
+        required: true
+    }
+    
+});
+
+autoIncrement.initialize(mongoose.connection);
+interactionSchema.plugin(autoIncrement.plugin,'real_time_best');
+
+module.exports.handler = (event, context, callback) => {
+    context.callbackWaitsForEmptyEventLoop =false;
+    let Best = mongoose.model('real_time_best', interactionSchema);
+    let body=JSON.parse(event.body);
+    let operation = event.httpMethod;
+
+    switch (operation) {
+        case 'GET':
+                    let tDate=new Date();
+                    tDate.setMinutes(tDate.getMinutes()-3);
+                    connect().then(() => Best.aggregate([
+                        
+                        {
+                            $sort:{
+                                date:-1
+                            }
+                        },
+                        {
+                            //갯수로 제한
+                            $limit: 50 
+                        },
+                        //시간으로 제한
+                        /*
+                        {$match: { 
+                    			$and: [
+                    				{ reg_origin_date: { $gte:  tDate } }
+                    			] 
+                		    }
+                		},*/
+                        {
+                            $group: {
+                                _id: "$item_id",
+                                count: { "$sum": 1 }  
+                            }
+                        },
+                        {
+                            $sort:{
+                                count:-1
+                            }
+                        }
+                        ])
+                        .exec(function (err, interection) {
+                            if(err){
+                                callback(null, {
+                                        statusCode: 500,
+                                        body: JSON.stringify(err),
+                                    });
+                            }
+                            else{
+                                callback(null, {
+                                            statusCode: 200,
+                                            body: JSON.stringify(interection),
+                                        });
+                            }
+                           
+                            
+                            
+                        }));
+                   
+            break;
+        case 'POST':
+            connect().then(() => {
+                            const newInterection = new Best();
+                            newInterection.item_id=body.item_id;
+                            newInterection.date = new Date();
+                            if(body.birthdate){
+                                newInterection.birthdate=body.birthdate;
+                            }
+                            if(body.gender){
+                                newInterection.gender=body.gender;
+                            }
+                            
+                            newInterection.save(function(err, interaction) {
+                                if (err) {
+                                    callback(null, {
+                                        statusCode: 500,
+                                        body: JSON.stringify(err),
+                                    });
+                
+                
+                                } else {
+
+                                      callback(null, {
+                                        statusCode: 200,
+                                        body: JSON.stringify(interaction),
+                                    });
+                
+                                }
+                            });
+                }
+            
+                    );
+            
+            break;
+            
+            
+    }
+
+
+
+};

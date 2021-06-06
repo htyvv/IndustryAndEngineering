@@ -19,8 +19,15 @@ const connect = () => {
 };
 
 
-/* Board 오브젝트를 정의합니다. */
 const boardSchema = mongoose.Schema({
+    tag: {
+        type: String,
+        required: true
+    },
+    imag: {
+        type: String,
+        required: true
+    },
     name: {
         type: String,
         required: true
@@ -37,6 +44,7 @@ const boardSchema = mongoose.Schema({
         type: String,
         required: true
     },
+    
     date: {
         type: Date,
         required: true
@@ -62,15 +70,16 @@ const boardSchema = mongoose.Schema({
 });
 
 
+
             autoIncrement.initialize(mongoose.connection);
-            boardSchema.plugin(autoIncrement.plugin,'board');
+            boardSchema.plugin(autoIncrement.plugin,'recommend_board');
 
 
 module.exports.handler = (event, context, callback) => {
     context.callbackWaitsForEmptyEventLoop =false;
     let operation = event.httpMethod;
 
-    let Board = mongoose.model('board', boardSchema);
+    let Board = mongoose.model('recommend_board', boardSchema);
     
     
     
@@ -189,5 +198,6 @@ module.exports.handler = (event, context, callback) => {
                           'statusCode': 500,
                           'body': 'Unrecognized operation '+ operation
                           });
+            //callback(new Error(`Unrecognized operation "${operation}"`));
     }
 };

@@ -12,6 +12,7 @@ const connect = () => {
         useNewUrlParser: true
     })
         .then(conn => {
+
             connection = conn;
             return connection;
         });
@@ -20,6 +21,14 @@ const connect = () => {
 
 /* Board 오브젝트를 정의합니다. */
 const boardSchema = mongoose.Schema({
+    tag: {
+        type: String,
+        required: true
+    },
+    imag: {
+        type: String,
+        required: true
+    },
     name: {
         type: String,
         required: true
@@ -36,6 +45,7 @@ const boardSchema = mongoose.Schema({
         type: String,
         required: true
     },
+    
     date: {
         type: Date,
         required: true
@@ -64,13 +74,13 @@ const boardSchema = mongoose.Schema({
 
             autoIncrement.initialize(mongoose.connection);
 
-            boardSchema.plugin(autoIncrement.plugin,'board');
+            boardSchema.plugin(autoIncrement.plugin,'recommend_board');
 
 module.exports.handler = (event, context, callback) => {
     context.callbackWaitsForEmptyEventLoop =false;
     let operation = event.httpMethod;
 
-    let Board = mongoose.model('board', boardSchema);
+    let Board = mongoose.model('recommend_board', boardSchema);
     
     
     
@@ -104,6 +114,13 @@ module.exports.handler = (event, context, callback) => {
                         };
     
                     } 
+                    if (event.queryStringParameters.tag) {
+                        query.tag = {
+                            $regex: event.queryStringParameters.tag,
+                            $options: 'i'
+                        };
+    
+                    } 
                     if (event.queryStringParameters.pageNum) {
                         pageNum=event.queryStringParameters.pageNum;
     
@@ -114,7 +131,6 @@ module.exports.handler = (event, context, callback) => {
                     .skip(pageNum*20)
                     .limit(20)
                     .select("-password")
-                    //.select("-comment")
                     .select("-content")
                     .sort({
                         _id: -1
@@ -122,14 +138,14 @@ module.exports.handler = (event, context, callback) => {
                     .exec(function (error, boards) {
                         if (error) {
                             callback(null, {
-                                'statusCode': 500,
+                                'statusCode': 501,
                                 'body': JSON.stringify(error)
                             });
                         } else {
                              Board.countDocuments({}, function( err, count){
                                  if (err) {
                             callback(null, {
-                                'statusCode': 500,
+                                'statusCode': 502,
                                 'body': JSON.stringify(error)
                             });
                         }else{
@@ -182,12 +198,16 @@ module.exports.handler = (event, context, callback) => {
             /* 경로: /board 파라미터: {"name":"작성자","content":"내용","password":"비밀번호"} 설명: 특정 게시글을 작성합니다. */
             connect().then(()=>{
             const {
+                tag,
+                imag,
                 title,
                 name,
                 content,
                 password
             } = body;
             const newBoard = new Board({
+                tag,
+                imag,
                 title,
                 name,
                 content,
@@ -203,7 +223,7 @@ module.exports.handler = (event, context, callback) => {
                     } else {
                         callback(null, {
                             'statusCode': 200,
-                            'body': JSON.stringify(board._id)
+                            'body': JSON.stringify(board)
                         });
 
                     }
@@ -237,6 +257,8 @@ module.exports.handler = (event, context, callback) => {
                         });
                     } else {
                         const {
+                tag,
+                imag,
                             title,
                             name,
                             content,
@@ -245,6 +267,8 @@ module.exports.handler = (event, context, callback) => {
                         Board.findOneAndUpdate({
                             _id: proxy
                         }, {
+                tag,
+                imag,
                             title,
                             name,
                             content,
@@ -301,7 +325,7 @@ module.exports.handler = (event, context, callback) => {
                             } else {
                                 callback(null, {
                                     'statusCode': 200,
-                                    'body': JSON.stringify(board)
+                                    'body': JSON.stringify('success')
                                 });
                             }
                         });
