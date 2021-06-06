@@ -128,7 +128,6 @@ public class AmplifyApi {
                     }
                 }, error -> Log.e("interaction save", "interaction failed.", error)
         );
-        RealTimeBestPost(item_id,null,null);
     }
 
 
@@ -454,16 +453,21 @@ public class AmplifyApi {
 
                             Log.d("PersonalizeGet", (String) jsonArray.getJSONObject(i).get("itemId"));
                         }
+                        ((MainActivity) activity).Excel4(newSet, 1);
+                        if(adapter.isSameList(newSet)) {
+                            Log.d("AmplifyApi","sleep beacasuse smae");
+                            Thread.sleep(500);
+                            PersonalizeGet(adapter,activity,userId);
+                        }else {
+                            activity.runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    adapter.setValue(newSet);
+                                }
+                            });
+                        }
 
-                        activity.runOnUiThread(new Runnable(){
-                            @Override
-                            public void run() {
-                                ((MainActivity) activity).Excel4(newSet,1);
-                                adapter.setValue(newSet);
-                            }
-                        });
-
-                    }catch (JSONException e) {
+                    }catch (JSONException | InterruptedException e) {
                         e.printStackTrace();
                     }
                 }

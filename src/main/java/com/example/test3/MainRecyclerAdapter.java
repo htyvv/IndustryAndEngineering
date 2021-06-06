@@ -41,6 +41,15 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
     public boolean isSameList(List<String> list){
         int temp = 0;
         for(int i = 0; i < 3; i++) {
+            Log.d("MainRecyclerAdpter",mValue.get(i)+":"+list.get(i));
+            if (list.get(i).equals(mValue.get(i))) {
+                temp++;
+            }
+        }
+        if (temp == 3) return true;
+        temp=0;
+        for(int i = 0; i < 3; i++) {
+            Log.d("MainRecyclerAdpter",historyList.get(i)+":"+list.get(i));
             if (list.get(i).equals(historyList.get(i))) {
                 temp++;
             }
@@ -50,6 +59,7 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
     }
 
     public void setValue(List<String> list){
+        historyList=mValue;
         mValue = list;
         notifyDataSetChanged();
     }
@@ -100,7 +110,6 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
                     parentFragment.setRecent(mNumberView.getText().toString());
                     //parentFragment.PersonalizePOST(Integer.parseInt(mNumberView.getText().toString()));
                     //setValueReset();
-                    parentFragment.recyclerView.smoothScrollToPosition(0);
                 }
             });
         }
