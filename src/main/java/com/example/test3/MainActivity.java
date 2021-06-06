@@ -266,14 +266,14 @@ public class MainActivity extends AppCompatActivity {
                     AmplifyApi.InteractionPost(edit1text,userId);
                 }
                 if(!edit2.getText().toString().equals("")){
-                    edit2text = edit1.getText().toString();
+                    edit2text = edit2.getText().toString();
                     Excel4(AmplifyApi.newSet,2);
                     AmplifyApi.PersonalizePOST(edit2text,userId);
                     Excel4(AmplifyApi.newSet,1);
                     AmplifyApi.InteractionPost(edit2text,userId);
                 }
                 if(!edit3.getText().toString().equals("")){
-                    edit3text = edit1.getText().toString();
+                    edit3text = edit2.getText().toString();
                     Excel4(AmplifyApi.newSet,2);
                     AmplifyApi.PersonalizePOST(edit3text,userId);
                     Excel4(AmplifyApi.newSet,1);
