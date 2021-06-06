@@ -488,6 +488,7 @@ public class AmplifyApi {
         Amplify.API.post("bab2",options,
                 response ->{
                     Log.i("PersonalizePOST", "POST succeeded: " + response.getData().asString());
+                    MainActivity.modifyComplete = true;
                 },
                 error -> Log.e("PersonalizePOST", "POST failed.", error)
         );

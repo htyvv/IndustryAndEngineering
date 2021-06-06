@@ -279,13 +279,16 @@ public class MainActivity extends AppCompatActivity {
                     Excel4(AmplifyApi.newSet,1);
                     AmplifyApi.InteractionPost(edit3text,userId);
                 }
-                try
-                {
-                    Thread.sleep(2000);
-                } catch (InterruptedException e)
-                {
-                    e.printStackTrace();
+
+                while (!MainActivity.modifyComplete) {
+                    try {
+                        Thread.sleep(100);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                 }
+                MainActivity.modifyComplete = false;
+
                 //AmplifyApi.PersonalizeGet(MainActivity.this, userId);
                 mainFragment.getPersonalize();
                 //Excel4(AmplifyApi.newSet,1);

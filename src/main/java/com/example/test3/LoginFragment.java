@@ -132,7 +132,6 @@ public class LoginFragment extends Fragment {
 
                                 System.out.println("황자자자자자자자" + MainActivity.userId);
                                 //AmplifyApi.PersonalizeGet(getActivity().getMainFragment(), getActivity(), MainActivity.userId);
-
                                 //((MainActivity) getActivity()).getPersonalize();
                                 AmplifyApi.InteractionGet(MainActivity.userId);
                                 AmplifyApi.RealTimeBestGet();
