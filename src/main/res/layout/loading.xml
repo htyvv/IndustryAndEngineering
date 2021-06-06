@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="#eeeeee"
+    android:orientation="vertical"
+    android:layout_width="300dp"
+    android:layout_height="wrap_content">
+
+    <!-- 타이틀바 -->
+
+    <!-- //end 타이틀바 -->
+
+    <!-- Notice -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/realpizza"
+            android:gravity="center"
+            android:text="로딩창"
+            android:textColor="#1f2"
+            android:textSize="50sp" />
+
+    </LinearLayout>
+
+    <!-- Notice -->
+
+    <!-- 닫기 버튼 -->
+    <!--// 닫기 버튼 -->
+</LinearLayout>

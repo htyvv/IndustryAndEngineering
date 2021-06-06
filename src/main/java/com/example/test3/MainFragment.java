@@ -344,7 +344,7 @@ public class MainFragment extends Fragment {
 
 
         // 추가입력
-        Button writefood = (Button)view.findViewById(R.id.foodwritebutton);
+        ImageButton writefood = (ImageButton)view.findViewById(R.id.foodwritebutton);
         writefood.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

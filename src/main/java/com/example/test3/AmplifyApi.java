@@ -25,6 +25,7 @@ public class AmplifyApi {
     static ArrayList<String> newSet;
     static ArrayList<String> newRealtimeSet;
     static ArrayList<String> newInterSet;
+    static MainActivity mainActivity;
     // User 정보 가져오기
     //User attributes = [AuthUserAttribute {key=AuthUserAttributeKey {attributeKey=sub}, value=47fe45b6-6513-4636-9d1e-8ff09db7549c},
     //                   AuthUserAttribute {key=AuthUserAttributeKey {attributeKey=birthdate}, value=1111/11/11},
@@ -441,6 +442,7 @@ public class AmplifyApi {
                 .addHeader("userId",userId)
                 .build();
 
+        mainActivity.popup2();
         Amplify.API.get("bab2",options, respond->{
                     Log.d("PersonalizeGet","Get:"+respond.getData().asString()+"");
                     try {
@@ -459,6 +461,7 @@ public class AmplifyApi {
                             Thread.sleep(500);
                             PersonalizeGet(adapter,activity,userId);
                         }else {
+                            mainActivity.ad.dismiss();
                             activity.runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {

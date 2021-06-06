@@ -21,6 +21,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -69,6 +70,8 @@ public class MainActivity extends AppCompatActivity {
 
     String[] items;
 
+    AlertDialog ad;
+
     static SharedPreferences sharedPref;
     static SharedPreferences.Editor editor;
 
@@ -110,7 +113,7 @@ public class MainActivity extends AppCompatActivity {
         ArrayList<Integer> imsee = new ArrayList();
         Excel(imsee,null);
 
-
+        AmplifyApi.mainActivity = this;
 
         // 상단 바 제거
         ActionBar actionBar = getSupportActionBar();
@@ -305,6 +308,16 @@ public class MainActivity extends AppCompatActivity {
         edit1.setAdapter(adapter); edit2.setAdapter(adapter); edit3.setAdapter(adapter);
         //edit.setAdapter(adapter);
         //edit.setAdapter(new ArrayAdapter<String>(MainActivity.this,android.R.layout.simple_dropdown_item_1line,items));
+    }
+
+    public void popup2(){
+        LinearLayout dialogView2 = (LinearLayout) View.inflate(MainActivity.this, R.layout.loading, null);
+        //final ImageView loadingimage = (ImageView)dialogView2.findViewById(R.id.loadingimage);
+        AlertDialog.Builder dlg = new AlertDialog.Builder(MainActivity.this);
+        dlg.setView(dialogView2);
+        //dlg.show();
+        AlertDialog ad = dlg.create();
+        ad.show();
     }
 
     public void Excel(ArrayList<Integer> aa, MainRecyclerAdapter madapter) {
