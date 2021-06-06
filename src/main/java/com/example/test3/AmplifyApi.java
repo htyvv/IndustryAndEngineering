@@ -121,6 +121,8 @@ public class AmplifyApi {
                     try {
                         Log.d("interaction save","interaction:"+respond+"");
                         Log.d("interaction save","interaction:"+respond.getData().asJSONObject()+"");
+
+                        MainActivity.modifyComplete = true;
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -434,7 +436,7 @@ public class AmplifyApi {
 
 
     // user_id: sub
-    public static void PersonalizeGet(String userId){
+    public static void PersonalizeGet(MainRecyclerAdapter adapter, Activity activity, String userId){
         RestOptions options = RestOptions.builder()
                 .addPath("personalize-test")
                 .addHeader("userId",userId)
@@ -452,6 +454,15 @@ public class AmplifyApi {
 
                             Log.d("PersonalizeGet", (String) jsonArray.getJSONObject(i).get("itemId"));
                         }
+
+                        activity.runOnUiThread(new Runnable(){
+                            @Override
+                            public void run() {
+                                ((MainActivity) activity).Excel4(newSet,1);
+                                adapter.setValue(newSet);
+                            }
+                        });
+
                     }catch (JSONException e) {
                         e.printStackTrace();
                     }

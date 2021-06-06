@@ -2,6 +2,7 @@ package com.example.test3;
 
 import android.animation.ObjectAnimator;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -88,11 +89,20 @@ public class MainFragment extends Fragment {
         binding = null;
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        Log.d("MainFragment", "onStart");
+        AmplifyApi.PersonalizeGet(adapter, getActivity(), MainActivity.userId);
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentMainBinding.inflate(getLayoutInflater());
         view = binding.getRoot();
+
+        Log.d("MainFragment", "onCreateView");
 
         // recyclerView
         recyclerView = binding.recycler;
@@ -103,7 +113,7 @@ public class MainFragment extends Fragment {
         recyclerView.addItemDecoration(new RecyclerViewDecoration(0, 60));
         ObjectAnimator.ofFloat(recyclerView, "alpha", 0.0f, 1f).start();
 
-        ((MainActivity)getActivity()).Excel(checkfirst,adapter);
+        //((MainActivity)getActivity()).Excel(checkfirst, adapter);
 
         //setRecent(MainActivity.sharedPref.getInt("current",1));
         //PersonalizePOST(-99);
@@ -301,15 +311,18 @@ public class MainFragment extends Fragment {
                 ((MainActivity)getActivity()).Excel4(AmplifyApi.newSet,1);
                 AmplifyApi.RealTimeBestPost(currentItem,null,null);
                 AmplifyApi.InteractionPost(currentItem,MainActivity.userId);
-                try
-                {
-                    Thread.sleep(2000);
-                } catch (InterruptedException e)
-                {
-                    e.printStackTrace();
+
+                while (!MainActivity.modifyComplete) {
+                    try {
+                        Thread.sleep(100);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                 }
-                AmplifyApi.PersonalizeGet(MainActivity.userId);
-                ((MainActivity)getActivity()).Excel4(AmplifyApi.newSet,1);
+                MainActivity.modifyComplete = false;
+
+                AmplifyApi.PersonalizeGet(adapter, getActivity(), MainActivity.userId);
+                //((MainActivity)getActivity()).Excel4(AmplifyApi.newSet,1);
                 AmplifyApi.RealTimeBestGet();
                 AmplifyApi.InteractionGet(MainActivity.userId);
 
@@ -486,6 +499,10 @@ public class MainFragment extends Fragment {
         binding.recent.setText(recent);
         ((MainActivity) getActivity()).Excel2(recent, foodViewPagerAdapter);
         currentItem = recent;
+    }
+
+    public void getPersonalize() {
+        AmplifyApi.PersonalizeGet(adapter, getActivity(), MainActivity.userId);
     }
 
     public int ggum(String name){

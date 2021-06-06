@@ -131,7 +131,9 @@ public class LoginFragment extends Fragment {
 
 
                                 System.out.println("황자자자자자자자" + MainActivity.userId);
-                                AmplifyApi.PersonalizeGet(MainActivity.userId);
+                                //AmplifyApi.PersonalizeGet(getActivity().getMainFragment(), getActivity(), MainActivity.userId);
+
+                                //((MainActivity) getActivity()).getPersonalize();
                                 AmplifyApi.InteractionGet(MainActivity.userId);
                                 AmplifyApi.RealTimeBestGet();
                                 
@@ -144,8 +146,8 @@ public class LoginFragment extends Fragment {
                                 }
                                  */
 
-                                ((MainActivity)getActivity()).Excel4(AmplifyApi.newSet,1);
-                                System.out.println(AmplifyApi.newSet.get(0));
+                                //((MainActivity)getActivity()).Excel4(AmplifyApi.newSet,1);
+                                //System.out.println(AmplifyApi.newSet.get(0));
 
                                 // 로그 출력 및 화면 전환
                                 Log.d("", "current userId = " + MainActivity.userId);
