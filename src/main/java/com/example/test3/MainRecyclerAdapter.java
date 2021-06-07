@@ -49,6 +49,7 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
         }
         if (temp == 3) return true;
         temp=0;
+        if(historyList.size()<3){return false;}
         for(int i = 0; i < 3; i++) {
             Log.d("MainRecyclerAdpter",historyList.get(i)+":"+list.get(i));
             if (list.get(i).equals(historyList.get(i))) {

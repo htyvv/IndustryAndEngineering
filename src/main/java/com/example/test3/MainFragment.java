@@ -329,6 +329,8 @@ public class MainFragment extends Fragment {
 
                 ((MainActivity)getActivity()).BannerName();
                 recyclerView.smoothScrollToPosition(0);
+                ((MainActivity)getActivity()).Excel(haejin,adapter);
+                uncheck();
                 //((MainActivity)getActivity()).Excel(checkfirst,adapter);
                 //setRecent(MainActivity.sharedPref.getInt("current",1));
                 //PersonalizePOST(-99);
@@ -349,6 +351,9 @@ public class MainFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 ((MainActivity)getActivity()).popup();
+                haejin = new ArrayList<>();
+                ((MainActivity)getActivity()).Excel(haejin,adapter);
+                uncheck();
                 //items = new String[]{"sibal","ssibal","sssibal","ssssibal"};
 
                 //edit = (AutoCompleteTextView)view.findViewById(R.id.foodwritetext3);
@@ -509,4 +514,9 @@ public class MainFragment extends Fragment {
         return ((MainActivity)getActivity()).Excel3(name);
     }
 
+    public void uncheck(){
+        check2.setChecked(false);check3.setChecked(false);check4.setChecked(false);check5.setChecked(false);
+        check6.setChecked(false);check7.setChecked(false);check8.setChecked(false);check9.setChecked(false);
+        check10.setChecked(false);check11.setChecked(false);check12.setChecked(false);
+    }
 }
