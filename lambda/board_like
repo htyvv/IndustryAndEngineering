@@ -63,6 +63,10 @@ const boardSchema = mongoose.Schema({
         user_id: {
         type: String,
         required: true
+            },
+        date: {
+        type: Date,
+        required: true
             }
     }]
 });
@@ -78,9 +82,9 @@ module.exports.handler = (event, context, callback) => {
 
     let Board = mongoose.model('board', boardSchema);
     
+   
     
-    
-    let proxy;
+    let proxy, password;
     let body=JSON.parse(event.body);
     switch (operation) {
         case 'POST':
@@ -91,25 +95,26 @@ module.exports.handler = (event, context, callback) => {
                     .exec(function (err, board) {
                         if (err) {
                             callback(null, {
-                                'statusCode': 500,
+                                'statusCode': 503,
                                 'body': JSON.stringify(err)
                             });
 
                         } else if (!board) {
                             callback(null, {
-                                'statusCode': 500,
+                                'statusCode': 503,
                                 'body': JSON.stringify("Board not found.")
                             });
 
                         } else {
-                            const newBoard = {
-                                "user_id":body.user_id
-                                };
+                             
+                            let newBoard = {};
+                            newBoard.user_id=body.user_id;
+                            newBoard.date=new Date();
                             board.like.push(newBoard);
                             board.save(function (err, board) {
                                     if (err) {
                                     callback(null, {
-                                        'statusCode': 500,
+                                        'statusCode': 501,
                                         'body': JSON.stringify(err)
                                         });
                                 
@@ -133,7 +138,7 @@ module.exports.handler = (event, context, callback) => {
             /* 경로: /board/:id 헤더: password:"현재 비밀번호" 설명: 특정 게시글을 삭제합니다. */ 
             proxy = event.pathParameters.proxy;
 
-            let likeid = event.headers.likeid; 
+            let commentId = event.headers.likeid; 
 
 
             connect().then(() => Board.findOne({
@@ -141,22 +146,21 @@ module.exports.handler = (event, context, callback) => {
             }).exec(function (err, board) {
                 if (err) {
                     callback(null, {
-                        'statusCode': 500,
+                        'statusCode': 504,
                         'body': JSON.stringify(err)
                     });
                 } else if (!board) {
                     callback(null, {
-                        'statusCode': 500,
+                        'statusCode': 503,
                         'body': JSON.stringify("Board not found.")
                     });
                 } else {
-                    let comment=board.like.id(likeid);
-                             // 사용자가 입력한 번호에 해당하는 게시물을 삭제합니다. 
-                            board.like.pull(likeid);
+                    let comment=board.like.id(commentId); 
+                            board.like.pull(commentId);
                             board.save(function (err, board) {
                                     if (err) {
                                         callback(null, {
-                                            'statusCode': 500,
+                                            'statusCode': 501,
                                             'body': JSON.stringify(err)
                                         });
                                     } else {
@@ -170,7 +174,7 @@ module.exports.handler = (event, context, callback) => {
 
                             
                         
-                                           
+
                 }
             }));
             break;
