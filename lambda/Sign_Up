@@ -1,7 +1,14 @@
 "use strict";
 const mongoose = require('mongoose');
+const moment = require('moment');
+var AWS = require('aws-sdk');
 
 const MONGODB_URI = process.env.MONGODB_URI;
+const DATASET_ARN = process.env.DATASET_ARN;
+const SECRET_ACCESS_KEY = process.env.SECRET_ACCESS_KEY;
+const ACCESS_KEY = process.env.ACCESS_KEY;
+
+var personalizeevents = new AWS.PersonalizeEvents({apiVersion: '2018-03-22',accessKeyId:ACCESS_KEY,secretAccessKey:SECRET_ACCESS_KEY,region:'us-east-1'});
 
 /* 하나의 연결 객체를 반복적으로 사용합니다. */
 let connection = null;
@@ -54,11 +61,55 @@ const userSchema = mongoose.Schema({
 
 
 module.exports.handler = (event, context) => {
-    let operation = event.httpMethod;
+        console.log(event);
+
+
+    let age=event.request.userAttributes.birthdate;
+    age=moment(age,'%Y/%m/%d').fromNow();
+    age=Number.parseFloat(age);
+    if (age<20)
+        age=10;
+    else if (age<30)
+        age=20;
+    else if (age<40)
+        age=30;
+    else if (age<50)
+        age=40;
+    else if (age<60)
+        age=50;
+    else if (age<70)
+        age=60;
+    else if (age<80)
+        age=70;
+    else if (age<90)
+        age=80;
+    else
+        age=90;
+    
+    let sex=event.request.userAttributes.gender;
+    if (sex=='male')
+        sex='M';
+    else if (sex=='female')
+        sex='F';
+    
+    var json={};
+    json.agegroup=age;
+        json.gender=sex;
+
+    var params = {
+  datasetArn: DATASET_ARN,
+  users: [{
+      'userId':event.request.userAttributes.sub, 
+      'properties':json
+    }]
+};
+personalizeevents.putUsers(params, function(err, data) {
+  if (err) console.log(err, err.stack); // an error occurred
+  else{     
+      console.log(data);           // successful response
+
 
     let User = mongoose.model('user', userSchema);
-    
-    
 
     connect().then(() => {
         if (event.request.userAttributes.sub) {
@@ -87,7 +138,8 @@ module.exports.handler = (event, context) => {
 
         }
     });
-
+}
+});
 
 
 };
