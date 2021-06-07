@@ -9,6 +9,7 @@ import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin;
 import com.amplifyframework.auth.options.AuthSignInOptions;
 import com.amplifyframework.core.Amplify;
 import com.amplifyframework.storage.s3.AWSS3StoragePlugin;
+import com.kakao.sdk.common.KakaoSdk;
 
 
 public class Bab extends Application {
@@ -33,6 +34,9 @@ public class Bab extends Application {
                 result -> Log.i("AmplifyQuickstart", result.toString()),
                 error -> Log.e("AmplifyQuickstart", error.toString())
         );
+
+        KakaoSdk.init(this, "{NATIVE_APP_KEY}");
+
     }
 
 }

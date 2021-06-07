@@ -112,6 +112,7 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
                     parentFragment.setRecent(mNumberView.getText().toString());
                     //parentFragment.PersonalizePOST(Integer.parseInt(mNumberView.getText().toString()));
                     //setValueReset();
+                    parentFragment.recyclerView.smoothScrollToPosition(0);
                 }
             });
         }

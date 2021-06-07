@@ -1,12 +1,17 @@
 package com.example.test3;
 
+import android.Manifest;
 import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.location.Geocoder;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -31,11 +36,14 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.amplifyframework.api.rest.RestOptions;
@@ -43,9 +51,13 @@ import com.amplifyframework.auth.options.AuthSignOutOptions;
 import com.amplifyframework.core.Amplify;
 import com.example.test3.databinding.FragmentMainBinding;
 
+import net.daum.mf.map.api.MapView;
+
+import java.io.IOException;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -79,11 +91,17 @@ public class MainFragment extends Fragment {
     final long DELAY_MS = 500;
     final long PERIOD_MS = 3000;
 
+    //ViewGroup mapViewContainer;
+    //MapView mapView;
+    TextView addressText;
+    Button addressButton;
+    private GpsTracker gpsTracker;
 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d("MainFragment", "onCreate");
     }
 
     @Override
@@ -97,6 +115,27 @@ public class MainFragment extends Fragment {
         super.onStart();
         Log.d("MainFragment", "onStart");
         AmplifyApi.PersonalizeGet(adapter, getActivity(), MainActivity.userId);
+
+
+        //mapView = new MapView(getActivity());
+        //mapViewContainer.addView(mapView);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        Log.d("MainFragment", "onPause");
+
+        //mapViewContainer.removeAllViews();
+        //mapView = null;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.d("MainFragment", "onResume");
+
+
     }
 
     @Nullable
@@ -126,6 +165,33 @@ public class MainFragment extends Fragment {
             recyclerView.setAdapter(new BookmarkRecyclerViewAdapter());
              */
 
+
+        // mapView
+        //mapView = new MapView(getContext());
+        //mapViewContainer = (ViewGroup) view.findViewById(R.id.map_view);
+
+
+        // GPS 관련
+        if (!((MainActivity) getActivity()).checkLocationServicesStatus()) {
+            ((MainActivity) getActivity()).showDialogForLocationServiceSetting();
+        } else {
+            ((MainActivity) getActivity()).checkRunTimePermission();
+        }
+
+        addressText = binding.addressText;
+        addressButton = binding.addressButton;
+        addressButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                gpsTracker = new GpsTracker(getActivity());
+
+                double latitude = gpsTracker.getLatitude();
+                double longitude = gpsTracker.getLongitude();
+
+                String address = ((MainActivity) getActivity()).getCurrentAddress(latitude, longitude);
+                addressText.setText(address);
+            }
+        });
 
 
         // drawLayout
@@ -262,6 +328,7 @@ public class MainFragment extends Fragment {
         closeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                info.setImageResource(R.drawable.baseline_add_24);
                 binding.infoLayout.setVisibility(View.GONE);
                 binding.selectedLayout.setVisibility(View.GONE);
             }
@@ -551,4 +618,5 @@ public class MainFragment extends Fragment {
             check12.setChecked(false);
         }
     }
+
 }
