@@ -93,10 +93,10 @@ public class MainFragment extends Fragment {
 
     //ViewGroup mapViewContainer;
     //MapView mapView;
-    static TextView addressText;
-    Button addressButton;
-    private GpsTracker gpsTracker;
     static String address;
+    static TextView addressText;
+    private GpsTracker gpsTracker;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -177,8 +177,6 @@ public class MainFragment extends Fragment {
         } else {
             ((MainActivity) getActivity()).checkRunTimePermission();
         }
-
-
 
 
         // drawLayout
@@ -288,31 +286,15 @@ public class MainFragment extends Fragment {
         });
 
 
+        // addressText
+        addressText = binding.addressText;
 
         // infoOpen
-        addressText = binding.addressText;
         info = binding.infoButton;
         info.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                System.out.println(AmplifyApi.gage);
-                while(AmplifyApi.gage==null){
-                    ((MainActivity)getActivity()).popup2();
-                }
-                ((MainActivity)getActivity()).progressDialog.dismiss();
-                String b;
-                if(AmplifyApi.gage.size()!=0) {
-                    b = "근처 가게 이름 : ";
-                    b += AmplifyApi.gage.get(0);
-                    if(AmplifyApi.gagenumber.size()!=0){
-                        b += "   \n전화 번호 : ";
-                        b += AmplifyApi.gagenumber.get(0);
-                    }
-                    MainFragment.addressText.setText(b);
-                }
-                else if(AmplifyApi.gage.size()==0){
-                    MainFragment.addressText.setText("");
-                }
+
                 ConstraintLayout infoLayout = binding.infoLayout;
 
                 if(infoLayout.getVisibility() == View.GONE) {
@@ -322,9 +304,7 @@ public class MainFragment extends Fragment {
                     infoLayout.setVisibility(View.GONE);
                     info.setImageResource(R.drawable.baseline_add_24);
                 }
-                //if(AmplifyApi.gage.size()!=0) {
-                //    addressText.setText("근처 가게 이름 : " + AmplifyApi.gage.get(0));
-                //}
+
             }
         });
 
@@ -383,7 +363,6 @@ public class MainFragment extends Fragment {
         wanteatbutton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                closeButton.performClick();
                 haejin.clear();
                 AmplifyApi.PersonalizePOST(((MainActivity)getActivity()).curitem(currentItem),MainActivity.userId);
                 ((MainActivity)getActivity()).Excel4(AmplifyApi.newSet,1);
@@ -599,7 +578,6 @@ public class MainFragment extends Fragment {
         MainActivity.editor.putString("current", recent).apply();
 
         //todo 리사이클러 뷰에서 아이템을 선택하면 recent에 선택된 음식을 띄우고, 아래에는 상세정보
-        closeButton.performClick();
         binding.selectedLayout.setVisibility(View.VISIBLE);
         //binding.recent.setText(String.valueOf(recent));
         binding.recent.setText(recent);
@@ -621,10 +599,10 @@ public class MainFragment extends Fragment {
                 }
             }
         }
-        //addressText.setText(address);
+        addressText.setText(address);
         System.out.println(address);
         AmplifyApi.marketGet(address,recent);
-        //System.out.println(AmplifyApi.gage);
+        System.out.println(AmplifyApi.gage);
     }
 
     public int ggum(String name){

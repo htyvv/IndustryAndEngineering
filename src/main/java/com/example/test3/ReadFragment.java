@@ -157,7 +157,7 @@ public class ReadFragment extends Fragment { // 5
                     currentLike = true;
 
                     AmplifyApi.BoardLikePost(MainActivity.boardId, MainActivity.userId);
-
+                    Log.d("ReadFragment", MainActivity.boardId + ", " + MainActivity.userId);
                     while (!MainActivity.modifyComplete) {
                         try {
                             Thread.sleep(100);

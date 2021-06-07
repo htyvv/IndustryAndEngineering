@@ -25,9 +25,8 @@ public class AmplifyApi {
     static ArrayList<String> newSet;
     static ArrayList<String> newRealtimeSet;
     static ArrayList<String> newInterSet;
-    static ArrayList<String> gage;
-    static ArrayList<String> gagenumber;
     static MainActivity mainActivity;
+    static ArrayList<String> gage;
     // User 정보 가져오기
     //User attributes = [AuthUserAttribute {key=AuthUserAttributeKey {attributeKey=sub}, value=47fe45b6-6513-4636-9d1e-8ff09db7549c},
     //                   AuthUserAttribute {key=AuthUserAttributeKey {attributeKey=birthdate}, value=1111/11/11},
@@ -295,6 +294,7 @@ public class AmplifyApi {
                             data.setContent(result.getString("content"));
                             data.setDate(result.getString("date"));
                             data.setComment(DataUtil.JsonArrayToDataCommentArray(result.getJSONArray("comment")));
+                            data.setLike(DataUtil.JsonArrayToDataLikeArray(result.getJSONArray("like")));
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -650,6 +650,7 @@ public class AmplifyApi {
                             data.setTag(result.getString("tag"));
                             data.setDate(result.getString("date"));
                             data.setComment(DataUtil.JsonArrayToDataCommentArray(result.getJSONArray("comment")));
+                            data.setLike(DataUtil.JsonArrayToDataLikeArray(result.getJSONArray("like")));
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -842,29 +843,101 @@ public class AmplifyApi {
                                 start = 0; end = 0;
                             }
                         }
-                        start = 0; end = 0;
-                        gagenumber = new ArrayList<>();
-                        for(int i = 0; i<aa.length()-2;i++){
-                            if(aa.charAt(i)==':'&&aa.charAt(i-2)=='e'&&aa.charAt(i-3)=='n'){
-                                start = i+2;
-                            }
-                            if(aa.charAt(i)=='"'&&aa.charAt(i+1)==','){
-                                end = i;
-                            }
-                            if(end<start){
-                                end = 0;
-                            }
-                            if(start!=0&&end!=0){
-                                gagenumber.add(aa.substring(start,end));
-                                System.out.println(start + "위치 " + end);
-                                start = 0; end = 0;
-                            }
+                        if(gage.size()!=0) {
+                            MainFragment.addressText.setText("근처 가게 이름 : " + gage.get(0));
                         }
-
+                        else if(gage.size()==0){
+                            MainFragment.addressText.setText("");
+                        }
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
                 }, error -> Log.e("interaction save", "interaction failed.", error)
+        );
+    }
+
+
+    public static void BoardLikePost(int boardId, String user_id){
+        // boardId: 현재 게시글 번호
+        // user_id: 좋아요누가 하는지
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("userid", user_id);
+        jsonObject.addProperty("dumy","dddd");
+        RestOptions options = RestOptions.builder()
+                .addPath("/board-like/" + boardId)
+                .addBody(jsonObject.toString().getBytes())
+                .build();
+        Log.d("BoardLikePost", options.getPath());
+        Amplify.API.post("bab2", options, respond->{
+                    try {
+                        Log.d("BoardLikePost","POST:" + respond.toString());
+                        Log.d("BoardLikePost","POST:" + respond.getData().asJSONObject().toString());
+
+                        MainActivity.modifyComplete = true;
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }, error -> Log.e("BoardLikePost", "POST failed.", error)
+        );
+    }
+
+
+    public static void BoardLikeDelete(String id, String likeid){
+        // id: 현재 게시글 번호
+        // likeid: 좋아요 번호
+        RestOptions options = RestOptions.builder()
+                .addPath("/board-like/"+id)
+                .addHeader("likeid",likeid)
+                .build();
+        Amplify.API.delete("bab2",options,respond->{
+                    try {
+                        Log.d("BoardLikePost","Delete:"+respond.getData().asJSONObject()+"");
+                        MainActivity.modifyComplete = true;
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }, error -> Log.e("BoardLikePost", "Delete failed.", error)
+        );
+    }
+
+
+    // 추천 댓글 Post
+    public static void RecommendBoardLikePost(int boardId, String user_id){
+        // boardId: 현재 게시글 번호
+        // user_id: 지우는데 사용하는 인자, sub 사용
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("user_id", user_id);
+        RestOptions options = RestOptions.builder()
+                .addPath("/recommend-board-like/" + boardId)
+                .addBody(jsonObject.toString().getBytes())
+                .build();
+        Amplify.API.post("bab2", options, respond->{
+                    try {
+                        Log.d("RecommendBoardLikePost","POST:" + respond.getData().asJSONObject().toString());
+                        MainActivity.modifyComplete = true;
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }, error -> Log.e("RecommendBoardLikePost", "POST failed.", error)
+        );
+    }
+
+    public static void RecommendBoardLikeDelete(String id, String likeid){
+        // id: 현재 게시글 번호
+        // commentId: 현재 댓글의 번호
+
+        RestOptions options = RestOptions.builder()
+                .addPath("/recommend-board-like/"+id)
+                .addHeader("likeid",likeid)
+                .build();
+        Amplify.API.delete("bab2",options,respond->{
+                    try {
+                        Log.d("RecommendBoardLikeDelet","Delete:"+respond.getData().asJSONObject()+"");
+                        MainActivity.modifyComplete = true;
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }, error -> Log.e("RecommendBoardLikeDelet", "Delete failed.", error)
         );
     }
 }
