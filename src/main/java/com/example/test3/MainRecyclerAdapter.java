@@ -40,6 +40,7 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
 
     public boolean isSameList(List<String> list){
         int temp = 0;
+        if(mValue.size()<3){return false;}
         for(int i = 0; i < 3; i++) {
             Log.d("MainRecyclerAdpter",mValue.get(i)+":"+list.get(i));
             if (list.get(i).equals(mValue.get(i))) {

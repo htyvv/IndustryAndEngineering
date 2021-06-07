@@ -58,6 +58,7 @@ public class MainFragment extends Fragment {
 
     RecyclerView recyclerView;
     static MainRecyclerAdapter adapter;
+    static ArrayList<Integer> haejin;
 
     ImageButton setting;
     ImageButton filter;
@@ -307,6 +308,7 @@ public class MainFragment extends Fragment {
         wanteatbutton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
+                haejin.clear();
                 AmplifyApi.PersonalizePOST(((MainActivity)getActivity()).curitem(currentItem),MainActivity.userId);
                 ((MainActivity)getActivity()).Excel4(AmplifyApi.newSet,1);
                 AmplifyApi.RealTimeBestPost(currentItem,null,null);
@@ -327,7 +329,6 @@ public class MainFragment extends Fragment {
 
                 ((MainActivity)getActivity()).BannerName();
                 recyclerView.smoothScrollToPosition(0);
-
                 //((MainActivity)getActivity()).Excel(checkfirst,adapter);
                 //setRecent(MainActivity.sharedPref.getInt("current",1));
                 //PersonalizePOST(-99);
@@ -372,7 +373,7 @@ public class MainFragment extends Fragment {
                 check10 = (CheckBox)view.findViewById(R.id.mainFilter10);
                 check11 = (CheckBox)view.findViewById(R.id.mainFilter11);
                 check12 = (CheckBox)view.findViewById(R.id.mainFilter12);
-                ArrayList<Integer> haejin = new ArrayList();
+                haejin = new ArrayList();
                 if(check2.isChecked()){
                     haejin.add(0);
                 }
