@@ -793,5 +793,34 @@ public class AmplifyApi {
                 }, error -> Log.e("Community", "Delete failed.", error)
         );
     }
+    // 광고 음식점
+    //address 구
+    //menu_name 메뉴이름
+    public static void marketGet(String address,String menu_name){
 
+        RestOptions.Builder optionsBuilder = RestOptions.builder();
+        optionsBuilder = optionsBuilder.addPath("bab_market_list");
+
+        HashMap<String,String> addressMap = new HashMap<>();
+        tagMap.put("address", address);
+        optionsBuilder = optionsBuilder.addQueryParameters(addressMap);
+
+
+        HashMap<String,String> menu_nameMap = new HashMap<>();
+        nameMap.put("menu_name", menu_name);
+        optionsBuilder = optionsBuilder.addQueryParameters(menu_nameMap);
+
+
+        RestOptions options = optionsBuilder.build();
+
+        Amplify.API.get("bab2",options,respond->{
+                    try {
+                        JSONArray array=new JSONArray(respond.getData().asString());
+                        Log.d("marketGet","marketGet:"+array.toString()+"");
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }, error -> Log.e("interaction save", "interaction failed.", error)
+        );
+    }
 }
