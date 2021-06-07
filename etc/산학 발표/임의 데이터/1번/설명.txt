@@ -1,0 +1,42 @@
+[Recipe : USER_PERSONALIZE]
+유저메타데이터(성별,연령)를 필터로 걸어서 작동하는지 보기
+
+
+
+
+[데이터 해석]
+User   1 ~ 23  :  20대(여남여남여남...)
+User 24 ~ 45  :  60대(남여남여남여...)
+AGEGROUP : 그냥 ITEM metadata
+GENDER : categorical = true
+
+
+
+
+[Interactions 스키마]
+
+
+
+[User 스키마]
+
+{
+  "type": "record",
+  "name": "Users",
+  "namespace": "com.amazonaws.personalize.schema",
+  "fields": [
+      {
+          "name": "USER_ID",
+          "type": "string"
+      },
+      {
+          "name": "AGE",
+          "type": "int"
+      },
+      {
+          "name": "GENDER",
+          "type": "string",
+          "categorical": true
+      }
+  ],
+  "version": "1.0"
+}
