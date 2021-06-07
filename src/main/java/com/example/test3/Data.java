@@ -1,5 +1,7 @@
 package com.example.test3;
 
+import android.util.Log;
+
 import org.json.JSONArray;
 
 import java.util.ArrayList;
@@ -19,6 +21,7 @@ public class Data {
     private String content; // 내용
 
     private ArrayList<DataComment> comment; // 댓글
+    private ArrayList<DataLike> like;
 
 
     public int getId() {
@@ -77,6 +80,16 @@ public class Data {
     public int getCommentAmount() {
         if (comment == null) return 0;
         else return comment.size();
+    }
+
+    public ArrayList<DataLike> getLike() { return like; }
+    public void setLike(ArrayList<DataLike> like) {
+        this.like = like;
+    }
+
+    public int getLikeAmount() {
+        if (like == null) return 0;
+        else return like.size();
     }
 
 }

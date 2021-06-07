@@ -23,6 +23,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.test3.databinding.FragmentReadBinding;
 
+import java.util.ArrayList;
+
 public class ReadFragment extends Fragment { // 5
     
     private View view;
@@ -33,8 +35,12 @@ public class ReadFragment extends Fragment { // 5
     ImageButton readBackButton;
     
     ConstraintLayout readModifyLayout;
+    ImageButton readLikeButton;
     ImageButton readModifyButton;
     ImageButton readDeleteButton;
+    Boolean currentLike = false;
+    int currentLikeAmount;
+    String currentLikeId;
 
     TextView readWriter;
     TextView readWriteTime;
@@ -118,6 +124,53 @@ public class ReadFragment extends Fragment { // 5
 
         // readModifyLayout
         readModifyLayout = binding.readModifyLayout;
+
+
+        // readLikeButton
+        readLikeButton = binding.readLikeButton;
+        readLikeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // TODO: 해당 유저의 아이디를 뺀 다음 POST, 새로고침 안하기 위해 그냥 임의로 1 낮춘걸로 setText
+                if (currentLike) { // 현재 좋아요 상태
+                    readLikeButton.setImageResource(R.drawable.baseline_thumb_up_off_alt_black_36);
+                    currentLikeAmount--;
+                    readLikeAmount.setText(Integer.toString(currentLikeAmount));
+                    currentLike = false;
+
+                    AmplifyApi.BoardLikeDelete(Integer.toString(MainActivity.boardId), currentLikeId);
+
+                    while (!MainActivity.modifyComplete) {
+                        try {
+                            Thread.sleep(100);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    MainActivity.modifyComplete = false;
+
+                } else { // 현재 좋아요 X
+                    readLikeButton.setImageResource(R.drawable.baseline_thumb_up_alt_black_36);
+                    currentLikeAmount++;
+                    readLikeAmount.setText(Integer.toString(currentLikeAmount));
+                    currentLike = true;
+
+                    AmplifyApi.BoardLikePost(MainActivity.boardId, MainActivity.userId);
+
+                    while (!MainActivity.modifyComplete) {
+                        try {
+                            Thread.sleep(100);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    MainActivity.modifyComplete = false;
+                }
+            }
+        });
+
 
         // readModifyButton
         readModifyButton = binding.readModifyButton;
@@ -234,7 +287,21 @@ public class ReadFragment extends Fragment { // 5
 
         readWriter.setText("작성자: " + data.getName());
         readWriteTime.setText("작성 일자: " + year + "년 " + month + "월 " + date + "일  " + hour + "시 " + minute + "분 " + second + "초");
-        readLikeAmount.setText("50");
+
+        currentLikeAmount = data.getLikeAmount();
+        readLikeAmount.setText(Integer.toString(currentLikeAmount));
+        // 들어왔을 때 이미 좋아요를 누른 상태(= data.getLike()에 MainActivity.userId가 있으면)면 currentLike=True, 이미지는 검정색
+        for (DataLike dataL : data.getLike()) {
+            if (dataL.getName().equals(MainActivity.userId)) {
+                currentLike = true;
+                readLikeButton.setImageResource(R.drawable.baseline_thumb_up_alt_black_36);
+                currentLikeId = dataL.getId();
+            } else {
+                currentLike = false;
+            }
+        }
+
+
         readCommentAmount.setText(Integer.toString(data.getCommentAmount()));
         readTitleText.setText(data.getTitle());
         readMainText.setHtmlText(data.getContent());
@@ -248,11 +315,13 @@ public class ReadFragment extends Fragment { // 5
         MainActivity.modifyContent = data.getContent();
 
         
-        // 본인이면 수정, 삭제 레이아웃 보임
+        // 본인이면 수정, 삭제 보임
         if (data.getPassword().equals(MainActivity.userId)) {
-            readModifyLayout.setVisibility(View.VISIBLE);
+            readModifyButton.setVisibility(View.VISIBLE);
+            readDeleteButton.setVisibility(View.VISIBLE);
         } else {
-            readModifyLayout.setVisibility(View.GONE);
+            readModifyButton.setVisibility(View.GONE);
+            readDeleteButton.setVisibility(View.GONE);
         }
         
     }

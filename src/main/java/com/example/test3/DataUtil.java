@@ -32,6 +32,7 @@ public class DataUtil {
                 data.setTitle(object.getString("title"));
                 data.setDate(object.getString("date"));
                 data.setComment(JsonArrayToDataCommentArray(object.getJSONArray("comment")));
+                data.setLike(JsonArrayToDataLikeArray(object.getJSONArray("like")));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -63,6 +64,7 @@ public class DataUtil {
                 data.setTag(object.getString("tag"));
                 data.setImage(object.getString("imag"));
                 data.setComment(JsonArrayToDataCommentArray(object.getJSONArray("comment")));
+                data.setLike(JsonArrayToDataLikeArray(object.getJSONArray("like")));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -95,6 +97,31 @@ public class DataUtil {
                 data.setContent(object.getString("content"));
                 data.setPassword(object.getString("password"));
                 data.setDate(object.getString("date"));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            dataArrayList.add(data);
+        }
+
+        return dataArrayList;
+    }
+
+    public static ArrayList<DataLike> JsonArrayToDataLikeArray(JSONArray jsonArray) {
+
+        ArrayList<DataLike> dataArrayList = new ArrayList<>();
+
+        for (int i = 0; i < jsonArray.length(); i++) {
+            DataLike data = new DataLike();
+            JSONObject object = null;
+            try {
+                object = (JSONObject) jsonArray.getJSONObject(i);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            try {
+                data.setId(object.getString("_id"));
+                data.setName(object.getString("user_id"));
             } catch (JSONException e) {
                 e.printStackTrace();
             }

@@ -26,6 +26,7 @@ public class AmplifyApi {
     static ArrayList<String> newRealtimeSet;
     static ArrayList<String> newInterSet;
     static MainActivity mainActivity;
+    static ArrayList<String> gage;
     // User 정보 가져오기
     //User attributes = [AuthUserAttribute {key=AuthUserAttributeKey {attributeKey=sub}, value=47fe45b6-6513-4636-9d1e-8ff09db7549c},
     //                   AuthUserAttribute {key=AuthUserAttributeKey {attributeKey=birthdate}, value=1111/11/11},
@@ -293,6 +294,7 @@ public class AmplifyApi {
                             data.setContent(result.getString("content"));
                             data.setDate(result.getString("date"));
                             data.setComment(DataUtil.JsonArrayToDataCommentArray(result.getJSONArray("comment")));
+                            data.setLike(DataUtil.JsonArrayToDataLikeArray(result.getJSONArray("like")));
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -648,6 +650,7 @@ public class AmplifyApi {
                             data.setTag(result.getString("tag"));
                             data.setDate(result.getString("date"));
                             data.setComment(DataUtil.JsonArrayToDataCommentArray(result.getJSONArray("comment")));
+                            data.setLike(DataUtil.JsonArrayToDataLikeArray(result.getJSONArray("like")));
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -798,17 +801,19 @@ public class AmplifyApi {
     //menu_name 메뉴이름
     public static void marketGet(String address,String menu_name){
 
+        System.out.println("ㄴㄷ홴도햐ㅐㄴ홰놰"+address + "sfsef" + menu_name);
+
         RestOptions.Builder optionsBuilder = RestOptions.builder();
         optionsBuilder = optionsBuilder.addPath("bab_market_list");
 
         HashMap<String,String> addressMap = new HashMap<>();
-        tagMap.put("address", address);
+        addressMap.put("address", address);
         optionsBuilder = optionsBuilder.addQueryParameters(addressMap);
 
 
-        HashMap<String,String> menu_nameMap = new HashMap<>();
-        nameMap.put("menu_name", menu_name);
-        optionsBuilder = optionsBuilder.addQueryParameters(menu_nameMap);
+        HashMap<String,String> nameMap = new HashMap<>();
+        nameMap.put("menu", menu_name);
+        optionsBuilder = optionsBuilder.addQueryParameters(nameMap);
 
 
         RestOptions options = optionsBuilder.build();
@@ -817,6 +822,33 @@ public class AmplifyApi {
                     try {
                         JSONArray array=new JSONArray(respond.getData().asString());
                         Log.d("marketGet","marketGet:"+array.toString()+"");
+
+                        String aa = array.toString();
+                        System.out.println(aa);
+                        gage = new ArrayList<>();
+                        int start = 0; int end = 0;
+                        for(int i = 0; i<aa.length()-2;i++){
+                            if(aa.charAt(i)==':'&&aa.charAt(i-2)=='e'&&aa.charAt(i-3)=='m'){
+                                start = i+2;
+                            }
+                            if(aa.charAt(i)=='"'&&aa.charAt(i+1)==','){
+                                end = i;
+                            }
+                            if(end<start){
+                                end = 0;
+                            }
+                            if(start!=0&&end!=0){
+                                gage.add(aa.substring(start,end));
+                                System.out.println(start + "위치 " + end);
+                                start = 0; end = 0;
+                            }
+                        }
+                        if(gage.size()!=0) {
+                            MainFragment.addressText.setText("근처 가게 이름 : " + gage.get(0));
+                        }
+                        else if(gage.size()==0){
+                            MainFragment.addressText.setText("");
+                        }
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -863,6 +895,8 @@ public class AmplifyApi {
                 }, error -> Log.e("BoardLikePost", "Delete failed.", error)
         );
     }
+
+
     // 추천 댓글 Post
     public static void RecommendBoardLikePost(int boardId, String user_id){
         // boardId: 현재 게시글 번호
@@ -894,12 +928,12 @@ public class AmplifyApi {
                 .build();
         Amplify.API.delete("bab2",options,respond->{
                     try {
-                        Log.d("RecommendBoardLikeDelete","Delete:"+respond.getData().asJSONObject()+"");
+                        Log.d("RecommendBoardLikeDelet","Delete:"+respond.getData().asJSONObject()+"");
                         MainActivity.modifyComplete = true;
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                }, error -> Log.e("RecommendBoardLikeDelete", "Delete failed.", error)
+                }, error -> Log.e("RecommendBoardLikeDelet", "Delete failed.", error)
         );
     }
 }

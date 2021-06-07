@@ -121,8 +121,6 @@ public class BoardRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.View
         private TextView boardTitle;
         private TextView boardUserName;
         private TextView boardTime;
-        //private ImageView boardLikeIcon;
-        //private ImageView boardCommentIcon;
         private TextView boardLikeAmount;
         private TextView boardCommentAmount;
         private int boardId;
@@ -133,8 +131,6 @@ public class BoardRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.View
             boardTitle = itemView.findViewById(R.id.boardTitle);
             boardUserName = itemView.findViewById(R.id.boardUserName);
             boardTime = itemView.findViewById(R.id.boardTime);
-            //boardLikeIcon = itemView.findViewById(R.id.boardLikeIcon);
-            //boardCommentIcon = itemView.findViewById(R.id.boardCommentIcon);
             boardLikeAmount = itemView.findViewById(R.id.boardLikeAmount);
             boardCommentAmount = itemView.findViewById(R.id.boardCommentAmount);
 
@@ -151,9 +147,6 @@ public class BoardRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.View
         void onBind(Data data) {
             boardTitle.setText(data.getTitle());
             boardUserName.setText(data.getName());
-            //boardLikeIcon.setImageResource(data.getResId());
-            //boardCommentIcon.setImageResource(data.getResId());
-
 
             String year = data.getDate().substring(2, 4);
             String month = data.getDate().substring(5, 7);
@@ -163,7 +156,7 @@ public class BoardRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.View
             String minute = data.getDate().substring(14, 16);
 
             boardTime.setText(year + "/" + month + "/" + date + "  " + hour + ":" + minute);
-            //boardLikeAmount.setText(data.getLike());
+            boardLikeAmount.setText(Integer.toString(data.getLikeAmount()));
             boardCommentAmount.setText(Integer.toString(data.getCommentAmount()));
 
             boardId = data.getId();

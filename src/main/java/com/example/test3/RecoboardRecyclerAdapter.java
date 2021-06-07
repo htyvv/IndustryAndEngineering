@@ -177,7 +177,7 @@ public class RecoboardRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.
 
             recoboardTag.setText(data.getTag());
 
-            //boardLikeAmount.setText(data.getLike());
+            recoboardLikeAmount.setText(Integer.toString(data.getLikeAmount()));
             recoboardCommentAmount.setText(Integer.toString(data.getCommentAmount()));
 
             recoboardId = data.getId();

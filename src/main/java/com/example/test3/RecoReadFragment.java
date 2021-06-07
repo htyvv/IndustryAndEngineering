@@ -21,6 +21,8 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
+
 
 public class RecoReadFragment extends Fragment { // 11
 
@@ -32,8 +34,12 @@ public class RecoReadFragment extends Fragment { // 11
     ImageButton recoReadBackButton;
 
     ConstraintLayout recoReadModifyLayout;
+    ImageButton recoReadLikeButton;
     ImageButton recoReadModifyButton;
     ImageButton recoReadDeleteButton;
+    Boolean recoCurrentLike = false;
+    int recoCurrentLikeAmount;
+    String recoCurrentLikeId;
 
     TextView recoReadWriter;
     TextView recoReadWriteTime;
@@ -123,6 +129,53 @@ public class RecoReadFragment extends Fragment { // 11
 
         // recoReadModifyLayout
         recoReadModifyLayout = binding.recoReadModifyLayout;
+
+
+        // recoReadLikeButton
+        recoReadLikeButton = binding.recoReadLikeButton;
+        recoReadLikeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // TODO: 해당 유저의 아이디를 뺀 다음 POST, 새로고침 안하기 위해 그냥 임의로 1 낮춘걸로 setText
+                if (recoCurrentLike) { // 현재 좋아요 상태
+                    recoReadLikeButton.setImageResource(R.drawable.baseline_thumb_up_off_alt_black_36);
+                    recoCurrentLikeAmount--;
+                    recoReadLikeAmount.setText(Integer.toString(recoCurrentLikeAmount));
+                    recoCurrentLike = false;
+
+                    AmplifyApi.RecommendBoardLikeDelete(Integer.toString(MainActivity.recoboardId), recoCurrentLikeId);
+
+                    while (!MainActivity.modifyComplete) {
+                        try {
+                            Thread.sleep(100);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    MainActivity.modifyComplete = false;
+
+                } else { // 현재 좋아요 상태 X
+                    recoReadLikeButton.setImageResource(R.drawable.baseline_thumb_up_alt_black_36);
+                    recoCurrentLikeAmount++;
+                    recoReadLikeAmount.setText(Integer.toString(recoCurrentLikeAmount));
+                    recoCurrentLike = true;
+
+                    AmplifyApi.RecommendBoardLikePost(MainActivity.recoboardId, MainActivity.userId);
+
+                    while (!MainActivity.modifyComplete) {
+                        try {
+                            Thread.sleep(100);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    MainActivity.modifyComplete = false;
+
+                }
+            }
+        });
 
         // recoReadModifyButton
         recoReadModifyButton = binding.recoReadModifyButton;
@@ -241,7 +294,20 @@ public class RecoReadFragment extends Fragment { // 11
 
         recoReadWriter.setText("작성자: " + data.getName());
         recoReadWriteTime.setText("작성 일자: " + year + "년 " + month + "월 " + date + "일  " + hour + "시 " + minute + "분 " + second + "초");
-        recoReadLikeAmount.setText("50");
+
+        recoCurrentLikeAmount = data.getLikeAmount();
+        recoReadLikeAmount.setText(Integer.toString(recoCurrentLikeAmount));
+        // 들어왔을 때 이미 좋아요를 누른 상태(= data.getLike()에 MainActivity.userId가 있으면)면 recoCurrentLike=True, 이미지는 검정색
+        for (DataLike dataL : data.getLike()) {
+            if (dataL.getName().equals(MainActivity.userId)) {
+                recoCurrentLike = true;
+                recoReadLikeButton.setImageResource(R.drawable.baseline_thumb_up_alt_black_36);
+                recoCurrentLikeId = dataL.getId();
+            } else {
+                recoCurrentLike = false;
+            }
+        }
+
         recoReadCommentAmount.setText(Integer.toString(data.getCommentAmount()));
         recoReadTitleText.setText(data.getTitle());
         recoReadMainText.setHtmlText(data.getContent());
@@ -259,9 +325,11 @@ public class RecoReadFragment extends Fragment { // 11
 
         // 본인이면 수정, 삭제 레이아웃 보임
         if (data.getPassword().equals(MainActivity.userId)) {
-            recoReadModifyLayout.setVisibility(View.VISIBLE);
+            recoReadModifyButton.setVisibility(View.VISIBLE);
+            recoReadDeleteButton.setVisibility(View.VISIBLE);
         } else {
-            recoReadModifyLayout.setVisibility(View.GONE);
+            recoReadModifyButton.setVisibility(View.GONE);
+            recoReadDeleteButton.setVisibility(View.GONE);
         }
 
     }

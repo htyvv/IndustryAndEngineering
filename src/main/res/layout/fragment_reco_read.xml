@@ -200,33 +200,48 @@
                     android:id="@+id/recoReadModifyLayout"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:visibility="gone"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/recoReadMainText"
-                    tools:visibility="visible">
+                    app:layout_constraintVertical_bias="1.0">
 
                     <ImageButton
                         android:id="@+id/recoReadModifyButton"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
                         android:layout_marginTop="5dp"
-                        android:layout_marginEnd="5dp"
+                        android:visibility="gone"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toStartOf="@+id/recoReadDeleteButton"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:srcCompat="@drawable/outline_edit_black_24dp" />
+                        app:srcCompat="@drawable/outline_edit_black_24dp"
+                        tools:visibility="visible" />
 
                     <ImageButton
                         android:id="@+id/recoReadDeleteButton"
-                        android:layout_width="wrap_content"
-                        android:layout_height="0dp"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
                         android:layout_marginTop="5dp"
+                        android:visibility="gone"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:srcCompat="@drawable/editor_delete_20" />
+                        app:srcCompat="@drawable/editor_delete_20"
+                        tools:visibility="visible" />
+
+                    <ImageButton
+                        android:id="@+id/recoReadLikeButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginTop="5dp"
+                        android:background="#00000000"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:srcCompat="@drawable/baseline_thumb_up_off_alt_black_36" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 

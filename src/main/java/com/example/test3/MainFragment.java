@@ -93,8 +93,8 @@ public class MainFragment extends Fragment {
 
     //ViewGroup mapViewContainer;
     //MapView mapView;
-    TextView addressText;
-    Button addressButton;
+    static String address;
+    static TextView addressText;
     private GpsTracker gpsTracker;
 
 
@@ -177,21 +177,6 @@ public class MainFragment extends Fragment {
         } else {
             ((MainActivity) getActivity()).checkRunTimePermission();
         }
-
-        addressText = binding.addressText;
-        addressButton = binding.addressButton;
-        addressButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                gpsTracker = new GpsTracker(getActivity());
-
-                double latitude = gpsTracker.getLatitude();
-                double longitude = gpsTracker.getLongitude();
-
-                String address = ((MainActivity) getActivity()).getCurrentAddress(latitude, longitude);
-                addressText.setText(address);
-            }
-        });
 
 
         // drawLayout
@@ -301,6 +286,8 @@ public class MainFragment extends Fragment {
         });
 
 
+        // addressText
+        addressText = binding.addressText;
 
         // infoOpen
         info = binding.infoButton;
@@ -596,6 +583,26 @@ public class MainFragment extends Fragment {
         binding.recent.setText(recent);
         ((MainActivity) getActivity()).Excel2(recent, foodViewPagerAdapter);
         currentItem = recent;
+
+        gpsTracker = new GpsTracker(getActivity());
+
+        double latitude = gpsTracker.getLatitude();
+        double longitude = gpsTracker.getLongitude();
+
+        address = ((MainActivity) getActivity()).getCurrentAddress(latitude, longitude);
+        for(int i = 0; i<address.length();i++){
+            if(address.charAt(i)=='구'){
+                for(int j = i;j>0;j--){
+                    if(address.charAt(j)==' '){
+                        address = address.substring(j,i+1);
+                    }
+                }
+            }
+        }
+        addressText.setText(address);
+        System.out.println(address);
+        AmplifyApi.marketGet(address,recent);
+        System.out.println(AmplifyApi.gage);
     }
 
     public int ggum(String name){
