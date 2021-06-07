@@ -578,6 +578,7 @@ public class MainFragment extends Fragment {
         MainActivity.editor.putString("current", recent).apply();
 
         //todo 리사이클러 뷰에서 아이템을 선택하면 recent에 선택된 음식을 띄우고, 아래에는 상세정보
+        closeButton.performClick();
         binding.selectedLayout.setVisibility(View.VISIBLE);
         //binding.recent.setText(String.valueOf(recent));
         binding.recent.setText(recent);
