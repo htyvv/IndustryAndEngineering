@@ -43,12 +43,23 @@ android {
         enabled = true
     }
 
+    splits {
+        abi {
+            enable true
+            reset()
+            include 'x86', 'x86_64', 'armeabi-v7a', 'armeabi'
+            universalApk false
+        }
+    }
+
 }
 
 dependencies {
 
     // Amplify core dependency
     implementation 'com.amplifyframework:core:1.17.1'
+    implementation 'com.google.android.gms:play-services-maps:17.0.1'
+    implementation files('libs\\libDaumMapEngineApi.jar')
 
     // Support for Java 8 features
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.5'
@@ -76,5 +87,14 @@ dependencies {
     implementation 'net.sourceforge.jexcelapi:jxl:2.6.12'
     implementation 'com.github.bumptech.glide:glide:4.9.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'
+
+
+    implementation "com.kakao.sdk:v2-user:2.5.1" // 카카오 로그인
+    implementation "com.kakao.sdk:v2-talk:2.5.1" // 친구, 메시지(카카오톡)
+    implementation "com.kakao.sdk:v2-story:2.5.1" // 카카오스토리
+    implementation "com.kakao.sdk:v2-link:2.5.1" // 메시지(카카오링크)
+    implementation "com.kakao.sdk:v2-navi:2.5.1" // 카카오내비
+    implementation files('libs/libDaumMapAndroid.jar')
+    implementation files('libs/libDaummapEngineApi.jar')
 
 }
