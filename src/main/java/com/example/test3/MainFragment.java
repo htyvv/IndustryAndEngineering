@@ -58,7 +58,7 @@ public class MainFragment extends Fragment {
 
     RecyclerView recyclerView;
     static MainRecyclerAdapter adapter;
-    static ArrayList<Integer> haejin;
+    static ArrayList<Integer> haejin = new ArrayList<>();
 
     ImageButton setting;
     ImageButton filter;
@@ -515,8 +515,18 @@ public class MainFragment extends Fragment {
     }
 
     public void uncheck(){
-        check2.setChecked(false);check3.setChecked(false);check4.setChecked(false);check5.setChecked(false);
-        check6.setChecked(false);check7.setChecked(false);check8.setChecked(false);check9.setChecked(false);
-        check10.setChecked(false);check11.setChecked(false);check12.setChecked(false);
+        if(check2!=null) {
+            check2.setChecked(false);
+            check3.setChecked(false);
+            check4.setChecked(false);
+            check5.setChecked(false);
+            check6.setChecked(false);
+            check7.setChecked(false);
+            check8.setChecked(false);
+            check9.setChecked(false);
+            check10.setChecked(false);
+            check11.setChecked(false);
+            check12.setChecked(false);
+        }
     }
 }
