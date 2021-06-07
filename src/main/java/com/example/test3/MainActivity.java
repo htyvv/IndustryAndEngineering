@@ -1,6 +1,7 @@
 package com.example.test3;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -10,6 +11,8 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
@@ -71,6 +74,7 @@ public class MainActivity extends AppCompatActivity {
     String[] items;
 
     AlertDialog ad;
+    ProgressDialog progressDialog;
 
     static SharedPreferences sharedPref;
     static SharedPreferences.Editor editor;
@@ -264,21 +268,21 @@ public class MainActivity extends AppCompatActivity {
                 if(!edit1.getText().toString().equals("")){
                     edit1text = edit1.getText().toString();
                     Excel4(AmplifyApi.newSet,2);
-                    AmplifyApi.PersonalizePOST(edit1text,userId);
+                    AmplifyApi.PersonalizePOST(curitem(edit1text),userId);
                     Excel4(AmplifyApi.newSet,1);
                     AmplifyApi.InteractionPost(edit1text,userId);
                 }
                 if(!edit2.getText().toString().equals("")){
                     edit2text = edit2.getText().toString();
                     Excel4(AmplifyApi.newSet,2);
-                    AmplifyApi.PersonalizePOST(edit2text,userId);
+                    AmplifyApi.PersonalizePOST(curitem(edit2text),userId);
                     Excel4(AmplifyApi.newSet,1);
                     AmplifyApi.InteractionPost(edit2text,userId);
                 }
                 if(!edit3.getText().toString().equals("")){
                     edit3text = edit2.getText().toString();
                     Excel4(AmplifyApi.newSet,2);
-                    AmplifyApi.PersonalizePOST(edit3text,userId);
+                    AmplifyApi.PersonalizePOST(curitem(edit3text),userId);
                     Excel4(AmplifyApi.newSet,1);
                     AmplifyApi.InteractionPost(edit3text,userId);
                 }
@@ -311,13 +315,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void popup2(){
-        LinearLayout dialogView2 = (LinearLayout) View.inflate(MainActivity.this, R.layout.loading, null);
-        //final ImageView loadingimage = (ImageView)dialogView2.findViewById(R.id.loadingimage);
-        AlertDialog.Builder dlg = new AlertDialog.Builder(MainActivity.this);
-        dlg.setView(dialogView2);
-        //dlg.show();
-        AlertDialog ad = dlg.create();
-        ad.show();
+        if(progressDialog==null) {
+            progressDialog = new ProgressDialog(this);
+        }
+        progressDialog.setMessage("로딩중...");
+        progressDialog.setCancelable(false);
+        progressDialog.setProgressStyle(android.R.style.Widget_ProgressBar_Horizontal);
+        progressDialog.show();
     }
 
     public void Excel(ArrayList<Integer> aa, MainRecyclerAdapter madapter) {
@@ -500,6 +504,32 @@ public class MainActivity extends AppCompatActivity {
         } catch (BiffException e) {
             e.printStackTrace();
         }
+    }
+
+    public String curitem(String a) {
+        Workbook workbook = null;
+        Sheet sheet = null;
+        try {
+            InputStream inputStream = getBaseContext().getResources().getAssets().open("food2.xls");
+            workbook = Workbook.getWorkbook(inputStream);
+            sheet = workbook.getSheet(0);
+            ArrayList<String> Classification = new ArrayList<String>(Arrays.asList("구이류", "국 및 탕류",
+                    "찌개 및 전골류", "면 및 만두류", "밥류", "볶음류", "빵류", "죽 및 스프류", "찜류", "튀김류", "회류"));
+            for (int i = 1; i < sheet.getRows(); i++) {
+                if (sheet.getCell(1, i).getContents().equals(a)) {
+                    for (int j = 0; j < 11; j++) {
+                        if (sheet.getCell(2, i).getContents().equals(Classification.get(j))) {
+                            return Integer.toString(j);
+                        }
+                    }
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (BiffException e) {
+            e.printStackTrace();
+        }
+        return "99";
     }
 
     public void BannerName(){

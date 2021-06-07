@@ -171,21 +171,19 @@ public class AmplifyApi {
 
     // 이후 시간되면 필터에 사용할수 있을것같아서 추가한것
     // 이 함수를 호출해야 실시간 순위에 반영이 됨
-    public static void RealTimeBestPost(String item_id, String user_id,String birthdate, String gender){
+    public static void RealTimeBestPost(String item_id, String birthdate, String gender){
         // item_id: 선택한 음식의 이름
         // birthdate, gender은 null가능
         JsonObject jsonObject=new JsonObject();
         jsonObject.addProperty("item_id",item_id);
-        if(user_id!=null) {
-            jsonObject.addProperty("user_id", user_id);
+        if(birthdate!=null) {
+            jsonObject.addProperty("birthdate", birthdate);
         }
 
         if(gender!=null) {
             jsonObject.addProperty("gender", gender);
         }
-        if(birthdate!=null) {
-            jsonObject.addProperty("birthdate", birthdate);
-        }
+
         RestOptions options = RestOptions.builder()
                 .addPath("real-time-best")
                 .addBody(jsonObject.toString().getBytes())
@@ -463,7 +461,7 @@ public class AmplifyApi {
                             Thread.sleep(500);
                             PersonalizeGet(adapter,activity,userId);
                         }else {
-                            mainActivity.ad.dismiss();
+                            mainActivity.progressDialog.dismiss();
                             activity.runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {

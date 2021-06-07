@@ -12,21 +12,12 @@
     <!-- //end 타이틀바 -->
 
     <!-- Notice -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/realpizza"
-            android:gravity="center"
-            android:text="로딩창"
-            android:textColor="#1f2"
-            android:textSize="50sp" />
-
-    </LinearLayout>
+    <ImageView
+        android:id="@+id/loadingimage"
+        android:layout_width="262dp"
+        android:layout_height="216dp"
+        android:background="@drawable/baseline_settings_24"
+        android:gravity="center" />
 
     <!-- Notice -->
 

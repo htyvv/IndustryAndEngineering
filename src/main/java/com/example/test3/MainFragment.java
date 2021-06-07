@@ -307,8 +307,7 @@ public class MainFragment extends Fragment {
         wanteatbutton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                ((MainActivity)getActivity()).Excel4(AmplifyApi.newSet,2);
-                AmplifyApi.PersonalizePOST(currentItem,MainActivity.userId);
+                AmplifyApi.PersonalizePOST(((MainActivity)getActivity()).curitem(currentItem),MainActivity.userId);
                 ((MainActivity)getActivity()).Excel4(AmplifyApi.newSet,1);
                 AmplifyApi.RealTimeBestPost(currentItem,null,null);
                 AmplifyApi.InteractionPost(currentItem,MainActivity.userId);
