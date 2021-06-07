@@ -45,6 +45,7 @@ import com.example.test3.databinding.FragmentMainBinding;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -343,6 +344,27 @@ public class MainFragment extends Fragment {
             }
         });
 
+        // 모든 음식 출력
+        ImageButton allfood = (ImageButton)view.findViewById(R.id.foodallbutton);
+        allfood.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ArrayList<String> a = new ArrayList(Arrays.asList(((MainActivity)getActivity()).items));
+                adapter.setValue(a);
+                AmplifyApi.newSet = a;
+                ((MainActivity)getActivity()).Excel(haejin,adapter);
+                uncheck();
+            }
+        });
+
+        // 음식 검색
+        ImageButton sirfood = (ImageButton)view.findViewById(R.id.foodsirbutton);
+        sirfood.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((MainActivity)getActivity()).popup3();
+            }
+        });
 
 
         // 추가입력

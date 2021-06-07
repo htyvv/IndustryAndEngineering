@@ -382,6 +382,28 @@
                     app:layout_constraintEnd_toStartOf="@+id/filter"
                     app:layout_constraintTop_toTopOf="parent" />
 
+                <ImageButton
+                    android:id="@+id/foodallbutton"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginEnd="15dp"
+                    android:background="@drawable/chooha_image"
+                    android:text="Button"
+                    app:layout_constraintEnd_toStartOf="@+id/foodwritebutton"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageButton
+                    android:id="@+id/foodsirbutton"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginEnd="15dp"
+                    android:background="@drawable/chooha_image"
+                    android:text="Button"
+                    app:layout_constraintEnd_toStartOf="@+id/foodallbutton"
+                    app:layout_constraintTop_toTopOf="parent" />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
 

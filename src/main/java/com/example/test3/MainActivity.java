@@ -324,6 +324,41 @@ public class MainActivity extends AppCompatActivity {
         progressDialog.show();
     }
 
+    public void popup3(){
+        LinearLayout dialogView;
+        dialogView = (LinearLayout) View.inflate(MainActivity.this,R.layout.fragment_foodsirpopup,null);
+        final AutoCompleteTextView edit1 = ((AutoCompleteTextView)dialogView.findViewById(R.id.foodsirtext1));
+        AlertDialog.Builder dlg=new AlertDialog.Builder(MainActivity.this);
+
+
+        dlg.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                if(!edit1.getText().toString().equals("")){
+                    String b = edit1.getText().toString();
+                    ArrayList<String> a = new ArrayList<>();
+                    a.add(b);
+                    MainFragment.adapter.setValue(a);
+                }
+
+
+            }
+        });
+        dlg.setNegativeButton("취소", null);
+        dlg.setView(dialogView);
+        dlg.show();
+        System.out.println(items[1]);
+        //String[] items = new String[]{"ss","ssb","sse","ssser"};
+        //ArrayAdapter<String> adapter = new ArrayAdapter<>(MainActivity.this, android.R.layout.simple_dropdown_item_1line,items);
+
+        //edit1.setAnimation(null);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(MainActivity.this,android.R.layout.simple_dropdown_item_1line,items);
+        edit1.setAdapter(adapter);
+        //edit.setAdapter(adapter);
+        //edit.setAdapter(new ArrayAdapter<String>(MainActivity.this,android.R.layout.simple_dropdown_item_1line,items));
+    }
+
     public void Excel(ArrayList<Integer> aa, MainRecyclerAdapter madapter) {
         Workbook workbook = null;
         Sheet sheet = null;
@@ -346,9 +381,9 @@ public class MainActivity extends AppCompatActivity {
             InputStream inputStream = getBaseContext().getResources().getAssets().open("food2.xls");
             workbook = Workbook.getWorkbook(inputStream);
             sheet = workbook.getSheet(0);
-            items = new String[sheet.getRows()];
-            for(int i = 0;i<sheet.getRows();i++){
-                items[i] = sheet.getCell(1,i).getContents();
+            items = new String[sheet.getRows()-1];
+            for(int i = 1;i<sheet.getRows();i++){
+                items[i-1] = sheet.getCell(1,i).getContents();
             }
             if(testlist1.size()!=0){
                 for(int i = 0; i < testlist2.size(); i++){
