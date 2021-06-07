@@ -363,6 +363,7 @@ public class MainFragment extends Fragment {
         wanteatbutton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
+	    closeButton.performClick();
                 haejin.clear();
                 AmplifyApi.PersonalizePOST(((MainActivity)getActivity()).curitem(currentItem),MainActivity.userId);
                 ((MainActivity)getActivity()).Excel4(AmplifyApi.newSet,1);
