@@ -823,4 +823,83 @@ public class AmplifyApi {
                 }, error -> Log.e("interaction save", "interaction failed.", error)
         );
     }
+
+
+    public static void BoardLikePost(int boardId, String user_id){
+        // boardId: 현재 게시글 번호
+        // user_id: 좋아요누가 하는지
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("user_id", user_id);
+        RestOptions options = RestOptions.builder()
+                .addPath("/board-like/" + boardId)
+                .addBody(jsonObject.toString().getBytes())
+                .build();
+        Amplify.API.post("bab2", options, respond->{
+                    try {
+                        Log.d("BoardLikePost","POST:" + respond.getData().asJSONObject().toString());
+                        MainActivity.modifyComplete = true;
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }, error -> Log.e("BoardLikePost", "POST failed.", error)
+        );
+    }
+
+
+    public static void BoardLikeDelete(String id, String likeid){
+        // id: 현재 게시글 번호
+        // likeid: 좋아요 번호
+        RestOptions options = RestOptions.builder()
+                .addPath("/board-like/"+id)
+                .addHeader("likeid",likeid)
+                .build();
+        Amplify.API.delete("bab2",options,respond->{
+                    try {
+                        Log.d("BoardLikePost","Delete:"+respond.getData().asJSONObject()+"");
+                        MainActivity.modifyComplete = true;
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }, error -> Log.e("BoardLikePost", "Delete failed.", error)
+        );
+    }
+    // 추천 댓글 Post
+    public static void RecommendBoardLikePost(int boardId, String user_id){
+        // boardId: 현재 게시글 번호
+        // user_id: 지우는데 사용하는 인자, sub 사용
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("user_id", user_id);
+        RestOptions options = RestOptions.builder()
+                .addPath("/recommend-board-like/" + boardId)
+                .addBody(jsonObject.toString().getBytes())
+                .build();
+        Amplify.API.post("bab2", options, respond->{
+                    try {
+                        Log.d("RecommendBoardLikePost","POST:" + respond.getData().asJSONObject().toString());
+                        MainActivity.modifyComplete = true;
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }, error -> Log.e("RecommendBoardLikePost", "POST failed.", error)
+        );
+    }
+
+    public static void RecommendBoardLikeDelete(String id, String likeid){
+        // id: 현재 게시글 번호
+        // commentId: 현재 댓글의 번호
+
+        RestOptions options = RestOptions.builder()
+                .addPath("/recommend-board-like/"+id)
+                .addHeader("likeid",likeid)
+                .build();
+        Amplify.API.delete("bab2",options,respond->{
+                    try {
+                        Log.d("RecommendBoardLikeDelete","Delete:"+respond.getData().asJSONObject()+"");
+                        MainActivity.modifyComplete = true;
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }, error -> Log.e("RecommendBoardLikeDelete", "Delete failed.", error)
+        );
+    }
 }
