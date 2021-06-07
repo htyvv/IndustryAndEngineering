@@ -27,6 +27,7 @@ public class AmplifyApi {
     static ArrayList<String> newInterSet;
     static MainActivity mainActivity;
     static ArrayList<String> gage;
+    static ArrayList<String> gagenumber;
     // User 정보 가져오기
     //User attributes = [AuthUserAttribute {key=AuthUserAttributeKey {attributeKey=sub}, value=47fe45b6-6513-4636-9d1e-8ff09db7549c},
     //                   AuthUserAttribute {key=AuthUserAttributeKey {attributeKey=birthdate}, value=1111/11/11},
@@ -799,26 +800,7 @@ public class AmplifyApi {
     // 광고 음식점
     //address 구
     //menu_name 메뉴이름
-    public static void marketGet(String address,String menu_name){
-
-        System.out.println("ㄴㄷ홴도햐ㅐㄴ홰놰"+address + "sfsef" + menu_name);
-
-        RestOptions.Builder optionsBuilder = RestOptions.builder();
-        optionsBuilder = optionsBuilder.addPath("bab_market_list");
-
-        HashMap<String,String> addressMap = new HashMap<>();
-        addressMap.put("address", address);
-        optionsBuilder = optionsBuilder.addQueryParameters(addressMap);
-
-
-        HashMap<String,String> nameMap = new HashMap<>();
-        nameMap.put("menu", menu_name);
-        optionsBuilder = optionsBuilder.addQueryParameters(nameMap);
-
-
-        RestOptions options = optionsBuilder.build();
-
-        Amplify.API.get("bab2",options,respond->{
+    Amplify.API.get("bab2",options,respond->{
                     try {
                         JSONArray array=new JSONArray(respond.getData().asString());
                         Log.d("marketGet","marketGet:"+array.toString()+"");
@@ -843,8 +825,33 @@ public class AmplifyApi {
                                 start = 0; end = 0;
                             }
                         }
+                        start = 0; end = 0;
+                        gagenumber = new ArrayList<>();
+                        for(int i = 0; i<aa.length()-2;i++){
+                            if(aa.charAt(i)==':'&&aa.charAt(i-2)=='e'&&aa.charAt(i-3)=='n'){
+                                start = i+2;
+                            }
+                            if(aa.charAt(i)=='"'&&aa.charAt(i+1)==','){
+                                end = i;
+                            }
+                            if(end<start){
+                                end = 0;
+                            }
+                            if(start!=0&&end!=0){
+                                gagenumber.add(aa.substring(start,end));
+                                System.out.println(start + "위치 " + end);
+                                start = 0; end = 0;
+                            }
+                        }
+                        String b;
                         if(gage.size()!=0) {
-                            MainFragment.addressText.setText("근처 가게 이름 : " + gage.get(0));
+                            b = "근처 가게 이름 : ";
+                            b += gage.get(0);
+                            if(gagenumber.size()!=0){
+                                b += "   \n전화 번호 : ";
+                                b += gagenumber.get(0);
+                            }
+                            MainFragment.addressText.setText(b);
                         }
                         else if(gage.size()==0){
                             MainFragment.addressText.setText("");
