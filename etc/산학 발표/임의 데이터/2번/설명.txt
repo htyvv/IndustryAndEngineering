@@ -1,0 +1,38 @@
+[Recipe : HRNN-METADATA]
+성별이랑 연령 categorical == true로 해서 실제로 연령과 성별이 의미있게 추천데이터에 영향을 미치는지
+
+
+
+
+[데이터 해석]
+User   1 ~ 23  :  20대(여남여남여남...)
+User 24 ~ 45  :  60대(남여남여남여...)
+AGEGROUP : 그냥 ITEM metadata
+GENDER : categorical = true
+
+
+
+
+[Interactions 스키마]
+
+
+
+[User 스키마]
+
+{
+  "type": "record",
+  "name": "Users",
+  "namespace": "com.amazonaws.personalize.schema",
+  "fields": [
+      {
+          "name": "USER_ID",
+          "type": "string"
+      },
+      {
+          "name": "AGEGROUP",
+          "type": "int"
+          "categorical": true
+      }
+  ],
+  "version": "1.0"
+}
