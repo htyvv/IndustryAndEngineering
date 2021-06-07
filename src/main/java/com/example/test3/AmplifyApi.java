@@ -27,6 +27,7 @@ public class AmplifyApi {
     static ArrayList<String> newInterSet;
     static MainActivity mainActivity;
     static ArrayList<String> gage;
+    static ArrayList<String> gagenumber;
     // User 정보 가져오기
     //User attributes = [AuthUserAttribute {key=AuthUserAttributeKey {attributeKey=sub}, value=47fe45b6-6513-4636-9d1e-8ff09db7549c},
     //                   AuthUserAttribute {key=AuthUserAttributeKey {attributeKey=birthdate}, value=1111/11/11},
@@ -66,7 +67,7 @@ public class AmplifyApi {
                     Log.i("AuthDemo", "Updated user attribute = " + result.toString());
                     MainActivity.userName = nickname;
                     MainActivity.modifyComplete = true;
-                    },
+                },
                 error -> Log.e("AuthDemo", "Failed to update user attribute.", error)
         );
     }
@@ -107,7 +108,7 @@ public class AmplifyApi {
                 }, error -> Log.e("interaction save", "interaction failed.", error)
         );
     }
-    
+
     // 먹은 음식 알리기
     public static void InteractionPost(String item_id, String user_id){
         // item_id: 선택한 음식의 이름
@@ -264,8 +265,8 @@ public class AmplifyApi {
             }
         }, error -> Log.e("Community", "Get failed.", error));
     }
-    
-    
+
+
     //특정 id의 게시글만 가져오기
     public static void Get(ReadFragment readFragment, Activity activity, int id){
         RestOptions options = RestOptions.builder()
@@ -408,7 +409,7 @@ public class AmplifyApi {
         );
     }
 
-    
+
     // 댓글 Delete
     public static void CommentDelete(String id, String commentId, String commentPassword){
         // id: 현재 게시글 번호
@@ -843,12 +844,25 @@ public class AmplifyApi {
                                 start = 0; end = 0;
                             }
                         }
-                        if(gage.size()!=0) {
-                            MainFragment.addressText.setText("근처 가게 이름 : " + gage.get(0));
+                        start = 0; end = 0;
+                        gagenumber = new ArrayList<>();
+                        for(int i = 0; i<aa.length()-2;i++){
+                            if(aa.charAt(i)==':'&&aa.charAt(i-2)=='e'&&aa.charAt(i-3)=='n'){
+                                start = i+2;
+                            }
+                            if(aa.charAt(i)=='"'&&aa.charAt(i+1)==','){
+                                end = i;
+                            }
+                            if(end<start){
+                                end = 0;
+                            }
+                            if(start!=0&&end!=0){
+                                gagenumber.add(aa.substring(start,end));
+                                System.out.println(start + "위치 " + end);
+                                start = 0; end = 0;
+                            }
                         }
-                        else if(gage.size()==0){
-                            MainFragment.addressText.setText("");
-                        }
+
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -861,8 +875,7 @@ public class AmplifyApi {
         // boardId: 현재 게시글 번호
         // user_id: 좋아요누가 하는지
         JsonObject jsonObject = new JsonObject();
-        jsonObject.addProperty("userid", user_id);
-        jsonObject.addProperty("dumy","dddd");
+        jsonObject.addProperty("user_id", user_id);
         RestOptions options = RestOptions.builder()
                 .addPath("/board-like/" + boardId)
                 .addBody(jsonObject.toString().getBytes())

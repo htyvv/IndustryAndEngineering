@@ -287,14 +287,52 @@ public class MainFragment extends Fragment {
 
 
         // addressText
-        addressText = binding.addressText;
+        TextView gage1 = (TextView)view.findViewById(R.id.gage1);
+        TextView gage2 = (TextView)view.findViewById(R.id.gage2);
+        TextView gage3 = (TextView)view.findViewById(R.id.gage3);
+        TextView gage4 = (TextView)view.findViewById(R.id.gage4);
+        TextView gage5 = (TextView)view.findViewById(R.id.gage5);
+        TextView gage6 = (TextView)view.findViewById(R.id.gage6);
 
         // infoOpen
         info = binding.infoButton;
         info.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                System.out.println(AmplifyApi.gage);
+                gage4.setText("");
+                gage5.setText("");
+                gage6.setText("");
+                gage1.setText("");
+                gage2.setText("");
+                gage3.setText("");
 
+                while(AmplifyApi.gage==null){
+                    ((MainActivity)getActivity()).popup2();
+                }
+                ((MainActivity)getActivity()).progressDialog.dismiss();
+                if(AmplifyApi.gage.size()!=0) {
+                    System.out.println("전화번호 " + AmplifyApi.gagenumber.get(0));
+                    if(AmplifyApi.gage.size()==1){
+                        gage4.setText(AmplifyApi.gage.get(0));
+                        gage1.setText(AmplifyApi.gagenumber.get(0));
+                    }
+                    else if(AmplifyApi.gage.size()==2){
+                        gage4.setText(AmplifyApi.gage.get(0));
+                        gage5.setText(AmplifyApi.gage.get(1));
+                        gage1.setText(AmplifyApi.gagenumber.get(0));
+                        gage2.setText(AmplifyApi.gagenumber.get(1));
+                    }
+                    else {
+                        gage4.setText(AmplifyApi.gage.get(0));
+                        gage5.setText(AmplifyApi.gage.get(1));
+                        gage6.setText(AmplifyApi.gage.get(2));
+                        gage1.setText(AmplifyApi.gagenumber.get(0));
+                        gage2.setText(AmplifyApi.gagenumber.get(1));
+                        gage3.setText(AmplifyApi.gagenumber.get(2));
+                    }
+
+                }
                 ConstraintLayout infoLayout = binding.infoLayout;
 
                 if(infoLayout.getVisibility() == View.GONE) {
@@ -304,7 +342,9 @@ public class MainFragment extends Fragment {
                     infoLayout.setVisibility(View.GONE);
                     info.setImageResource(R.drawable.baseline_add_24);
                 }
-
+                //if(AmplifyApi.gage.size()!=0) {
+                //    addressText.setText("근처 가게 이름 : " + AmplifyApi.gage.get(0));
+                //}
             }
         });
 
@@ -363,6 +403,7 @@ public class MainFragment extends Fragment {
         wanteatbutton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
+                closeButton.performClick();
                 haejin.clear();
                 AmplifyApi.PersonalizePOST(((MainActivity)getActivity()).curitem(currentItem),MainActivity.userId);
                 ((MainActivity)getActivity()).Excel4(AmplifyApi.newSet,1);
@@ -578,6 +619,7 @@ public class MainFragment extends Fragment {
         MainActivity.editor.putString("current", recent).apply();
 
         //todo 리사이클러 뷰에서 아이템을 선택하면 recent에 선택된 음식을 띄우고, 아래에는 상세정보
+        closeButton.performClick();
         binding.selectedLayout.setVisibility(View.VISIBLE);
         //binding.recent.setText(String.valueOf(recent));
         binding.recent.setText(recent);
@@ -599,10 +641,10 @@ public class MainFragment extends Fragment {
                 }
             }
         }
-        addressText.setText(address);
+        //addressText.setText(address);
         System.out.println(address);
         AmplifyApi.marketGet(address,recent);
-        System.out.println(AmplifyApi.gage);
+        //System.out.println(AmplifyApi.gage);
     }
 
     public int ggum(String name){
