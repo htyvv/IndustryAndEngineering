@@ -177,7 +177,12 @@ public class MainFragment extends Fragment {
         } else {
             ((MainActivity) getActivity()).checkRunTimePermission();
         }
-
+        gpsTracker = new GpsTracker(getActivity());
+        double latitude = gpsTracker.getLatitude();
+        double longitude = gpsTracker.getLongitude();
+        address = ((MainActivity) getActivity()).getCurrentAddress(latitude, longitude);
+        TextView aaaa = (TextView)view.findViewById(R.id.addresstextvuew);
+        aaaa.setText(address);
 
         // drawLayout
         drawerLayout = binding.drawerLayout;
@@ -186,10 +191,7 @@ public class MainFragment extends Fragment {
 
         // mainTitle
         mainTitle = binding.mainTitle;
-        // TODO: 아마 userName 받아오기 전에 길이를 계산해버려서 0, 0으로 처리되는듯?
-        SpannableStringBuilder sp = new SpannableStringBuilder(MainActivity.userName + "님을 위한  \n오늘의 추천 음식!  ");
-        sp.setSpan(new StyleSpan(Typeface.BOLD), 0, MainActivity.userName.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        mainTitle.setText(sp);
+        mainTitle.setText(MainActivity.userName + "님을 위한  \n오늘의 추천 음식!  ");
 
 
 
@@ -403,8 +405,9 @@ public class MainFragment extends Fragment {
         wanteatbutton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                closeButton.performClick();
+
                 haejin.clear();
+
                 AmplifyApi.PersonalizePOST(((MainActivity)getActivity()).curitem(currentItem),MainActivity.userId);
                 ((MainActivity)getActivity()).Excel4(AmplifyApi.newSet,1);
                 AmplifyApi.RealTimeBestPost(currentItem,null,null);
@@ -424,17 +427,12 @@ public class MainFragment extends Fragment {
                 AmplifyApi.InteractionGet(MainActivity.userId);
 
                 ((MainActivity)getActivity()).BannerName();
-                recyclerView.smoothScrollToPosition(0);
                 ((MainActivity)getActivity()).Excel(haejin,adapter);
+
+                recyclerView.smoothScrollToPosition(0);
+
+                closeButton.performClick();
                 uncheck();
-                //((MainActivity)getActivity()).Excel(checkfirst,adapter);
-                //setRecent(MainActivity.sharedPref.getInt("current",1));
-                //PersonalizePOST(-99);
-                //recyclerView.addItemDecoration(new TempRecyclerDecoration(25,25));
-            /*
-            recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
-            recyclerView.setAdapter(new BookmarkRecyclerViewAdapter());
-             */
 
             }
         });
@@ -447,7 +445,7 @@ public class MainFragment extends Fragment {
                 ArrayList<String> a = new ArrayList(Arrays.asList(((MainActivity)getActivity()).items));
                 adapter.setValue(a);
                 AmplifyApi.newSet = a;
-                ((MainActivity)getActivity()).Excel(haejin,adapter);
+                ((MainActivity)getActivity()).Excel(haejin, adapter);
                 uncheck();
             }
         });
@@ -618,9 +616,11 @@ public class MainFragment extends Fragment {
     public void setRecent(String recent){
         MainActivity.editor.putString("current", recent).apply();
 
-        //todo 리사이클러 뷰에서 아이템을 선택하면 recent에 선택된 음식을 띄우고, 아래에는 상세정보
-        closeButton.performClick();
+        if (binding.selectedLayout.getVisibility() != View.GONE) {
+            binding.selectedLayout.setVisibility(View.GONE);
+        }
         binding.selectedLayout.setVisibility(View.VISIBLE);
+
         //binding.recent.setText(String.valueOf(recent));
         binding.recent.setText(recent);
         ((MainActivity) getActivity()).Excel2(recent, foodViewPagerAdapter);
@@ -637,11 +637,14 @@ public class MainFragment extends Fragment {
                 for(int j = i;j>0;j--){
                     if(address.charAt(j)==' '){
                         address = address.substring(j,i+1);
+                        break;
                     }
                 }
             }
         }
         //addressText.setText(address);
+        TextView aaaa = (TextView)view.findViewById(R.id.addresstextvuew);
+        aaaa.setText(address);
         System.out.println(address);
         AmplifyApi.marketGet(address,recent);
         //System.out.println(AmplifyApi.gage);

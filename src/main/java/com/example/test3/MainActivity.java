@@ -590,7 +590,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void BannerName(){
-        String a = "현개 인기 음식      ";
+        String a = "현재 인기 음식      ";
         for(int i = 0; i<AmplifyApi.newRealtimeSet.size();i++) {
             a += i+1; a+= "위 : "; a+=AmplifyApi.newRealtimeSet.get(i); a+= "     ";
             list_excel.setText(a);
@@ -740,7 +740,7 @@ public class MainActivity extends AppCompatActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
         builder.setTitle("위치 서비스 비활성화");
         builder.setMessage("앱을 사용하기 위해서는 위치 서비스가 필요합니다.\n"
-                + "위치 설정을 수정하실래요?");
+                + "위치 설정을 수정하시겠습니까?");
         builder.setCancelable(true);
         builder.setPositiveButton("설정", new DialogInterface.OnClickListener() {
             @Override

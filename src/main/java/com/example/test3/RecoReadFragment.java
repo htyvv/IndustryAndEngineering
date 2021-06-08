@@ -21,13 +21,15 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.test3.databinding.FragmentRecoReadBinding;
+
 import java.util.ArrayList;
 
 
 public class RecoReadFragment extends Fragment { // 11
 
     private View view;
-    private com.example.test3.databinding.FragmentRecoReadBinding binding;
+    private FragmentRecoReadBinding binding;
 
     ImageButton recoCommentButton;
     EditText recoCommentInputEditText;

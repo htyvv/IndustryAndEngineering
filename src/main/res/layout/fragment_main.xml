@@ -323,7 +323,7 @@
 
                                     <TextView
                                         android:id="@+id/gage4"
-                                        android:layout_width="match_parent"
+                                        android:layout_width="107dp"
                                         android:layout_height="match_parent"
                                         android:background="@drawable/layout_borderline"
                                         android:gravity="center"
@@ -333,7 +333,7 @@
 
                                     <TextView
                                         android:id="@+id/gage5"
-                                        android:layout_width="match_parent"
+                                        android:layout_width="107dp"
                                         android:layout_height="match_parent"
                                         android:background="@drawable/layout_borderline"
                                         android:gravity="center"
@@ -343,7 +343,7 @@
 
                                     <TextView
                                         android:id="@+id/gage6"
-                                        android:layout_width="match_parent"
+                                        android:layout_width="107dp"
                                         android:layout_height="match_parent"
                                         android:background="@drawable/layout_borderline"
                                         android:gravity="center"
@@ -540,6 +540,14 @@
                     android:background="@drawable/foodsir_image"
                     android:text="Button"
                     app:layout_constraintEnd_toStartOf="@+id/foodallbutton"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/addresstextvuew"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="TextView"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>

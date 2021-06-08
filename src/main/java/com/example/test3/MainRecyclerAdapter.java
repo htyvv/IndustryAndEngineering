@@ -110,8 +110,6 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
                 @Override
                 public void onClick(View view) {
                     parentFragment.setRecent(mNumberView.getText().toString());
-                    //parentFragment.PersonalizePOST(Integer.parseInt(mNumberView.getText().toString()));
-                    //setValueReset();
                     parentFragment.recyclerView.smoothScrollToPosition(0);
                 }
             });
