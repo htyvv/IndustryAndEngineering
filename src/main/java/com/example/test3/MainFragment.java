@@ -633,7 +633,7 @@ public class MainFragment extends Fragment {
 
         address = ((MainActivity) getActivity()).getCurrentAddress(latitude, longitude);
         for(int i = 0; i<address.length();i++){
-            if(address.charAt(i)=='구'){
+            if(address.charAt(i)=='동'){
                 for(int j = i;j>0;j--){
                     if(address.charAt(j)==' '){
                         address = address.substring(j,i+1);

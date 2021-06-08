@@ -590,7 +590,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void BannerName(){
-        list_excel.setText("현재 가장 인기 음식 : " + AmplifyApi.newRealtimeSet.get(0));
+        String a = "현개 인기 음식      ";
+        for(int i = 0; i<AmplifyApi.newRealtimeSet.size();i++) {
+            a += i+1; a+= "위 : "; a+=AmplifyApi.newRealtimeSet.get(i); a+= "     ";
+            list_excel.setText(a);
+        }
     }
 
 
