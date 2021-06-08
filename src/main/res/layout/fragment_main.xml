@@ -5,7 +5,7 @@
     android:id="@+id/mainFragmentLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF"
+    android:background="@drawable/layout_borderline"
     android:orientation="vertical">
 
 
@@ -261,82 +261,129 @@
                         <androidx.constraintlayout.widget.ConstraintLayout
                             android:id="@+id/map_view"
                             android:layout_width="match_parent"
-                            android:layout_height="60dp"
+                            android:layout_height="0dp"
                             android:layout_marginStart="20dp"
                             android:layout_marginTop="20dp"
                             android:layout_marginEnd="20dp"
-                            android:backgroundTint="#FFFFFF"
+                            android:background="@drawable/layout_borderline"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/infoImageLayout">
 
-                            <TableLayout
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                app:layout_constraintBottom_toBottomOf="parent"
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                android:id="@+id/gageTitleLayout"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_marginTop="20dp"
+                                app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent">
 
-                                <TableRow
+                                <TextView
+                                    android:id="@+id/gageTitle"
                                     android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content">
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:text="맛집 추천"
+                                    android:textAlignment="center"
+                                    android:textSize="24sp"
+                                    android:textStyle="bold"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent" />
+
+                                <TextView
+                                    android:id="@+id/gageTitle2"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="지도는 아직 준비중이에요!"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toBottomOf="@+id/gageTitle" />
+                            </androidx.constraintlayout.widget.ConstraintLayout>
+
+                            <TableLayout
+                                android:id="@+id/gageLayout"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="10dp"
+                                android:layout_marginTop="10dp"
+                                android:layout_marginEnd="10dp"
+                                android:layout_marginBottom="20dp"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@id/gageTitleLayout">
+
+                                <TableRow
+                                    android:id="@+id/gageRow"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent">
 
                                     <TextView
                                         android:id="@+id/gage4"
-                                        android:layout_width="112dp"
+                                        android:layout_width="match_parent"
                                         android:layout_height="match_parent"
                                         android:background="@drawable/layout_borderline"
                                         android:gravity="center"
+                                        android:textAlignment="center"
                                         android:text="  1 "
                                         android:textSize="17sp" />
 
                                     <TextView
                                         android:id="@+id/gage5"
-                                        android:layout_width="112dp"
+                                        android:layout_width="match_parent"
                                         android:layout_height="match_parent"
                                         android:background="@drawable/layout_borderline"
                                         android:gravity="center"
+                                        android:textAlignment="center"
                                         android:text=" 2"
                                         android:textSize="17sp" />
 
                                     <TextView
                                         android:id="@+id/gage6"
-                                        android:layout_width="112dp"
+                                        android:layout_width="match_parent"
                                         android:layout_height="match_parent"
                                         android:background="@drawable/layout_borderline"
                                         android:gravity="center"
+                                        android:textAlignment="center"
                                         android:text="3"
                                         android:textSize="17sp" />
                                 </TableRow>
 
                                 <TableRow
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content">
+                                    android:id="@+id/gageRow2"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent">
 
                                     <TextView
                                         android:id="@+id/gage1"
-                                        android:layout_width="112dp"
+                                        android:layout_width="match_parent"
                                         android:layout_height="match_parent"
                                         android:background="@drawable/layout_borderline"
                                         android:gravity="center"
+                                        android:textAlignment="center"
                                         android:text="   4"
                                         android:textSize="17sp" />
 
                                     <TextView
                                         android:id="@+id/gage2"
-                                        android:layout_width="112dp"
+                                        android:layout_width="match_parent"
                                         android:layout_height="match_parent"
                                         android:background="@drawable/layout_borderline"
                                         android:gravity="center"
+                                        android:textAlignment="center"
                                         android:text=" 5"
                                         android:textSize="17sp" />
 
                                     <TextView
                                         android:id="@+id/gage3"
-                                        android:layout_width="112dp"
+                                        android:layout_width="match_parent"
                                         android:layout_height="match_parent"
                                         android:background="@drawable/layout_borderline"
                                         android:gravity="center"
+                                        android:textAlignment="center"
                                         android:text=" 6"
                                         android:textSize="17sp" />
                                 </TableRow>
@@ -348,12 +395,12 @@
                         <TableLayout
                             android:id="@+id/nutrimentLayout"
                             android:layout_width="match_parent"
-                            android:layout_height="65dp"
+                            android:layout_height="wrap_content"
                             android:layout_marginStart="20dp"
                             android:layout_marginTop="20dp"
                             android:layout_marginEnd="20dp"
                             android:layout_marginBottom="20dp"
-                            android:background="#FFFFFF"
+                            android:background="@drawable/layout_borderline"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintHorizontal_bias="0.0"
@@ -363,99 +410,94 @@
 
                             <TableRow
                                 android:id="@+id/nutrimentRow1"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content">
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="@drawable/layout_borderline">
 
                                 <TextView
                                     android:id="@+id/calorieText"
-                                    android:layout_width="73dp"
+                                    android:layout_width="70dp"
                                     android:layout_height="match_parent"
-                                    android:background="@drawable/layout_borderline"
                                     android:gravity="center"
-                                    android:text="  칼로리 "
+                                    android:text="칼로리"
                                     android:textSize="17sp" />
 
                                 <TextView
                                     android:id="@+id/carboText"
-                                    android:layout_width="77dp"
+                                    android:layout_width="65dp"
                                     android:layout_height="match_parent"
-                                    android:background="@drawable/layout_borderline"
                                     android:gravity="center"
-                                    android:text="탄수화물 "
+                                    android:text="탄수화물"
                                     android:textSize="17sp" />
 
                                 <TextView
                                     android:id="@+id/proteinText"
-                                    android:layout_width="match_parent"
+                                    android:layout_width="60dp"
                                     android:layout_height="match_parent"
-                                    android:background="@drawable/layout_borderline"
                                     android:gravity="center"
-                                    android:text="단백질 "
+                                    android:text="단백질"
                                     android:textSize="17sp" />
 
                                 <TextView
                                     android:id="@+id/fatText"
-                                    android:layout_width="52dp"
+                                    android:layout_width="60dp"
                                     android:layout_height="match_parent"
-                                    android:background="@drawable/layout_borderline"
                                     android:gravity="center"
                                     android:text="지방"
                                     android:textSize="17sp" />
 
                                 <TextView
                                     android:id="@+id/priceText"
-                                    android:layout_width="87dp"
+                                    android:layout_width="match_parent"
                                     android:layout_height="match_parent"
-                                    android:background="@drawable/layout_borderline"
                                     android:gravity="center"
                                     android:text="1회제공량"
                                     android:textSize="17sp" />
 
                             </TableRow>
 
-                            <TableRow android:id="@+id/nutrimentRow2">
+                            <TableRow
+                                android:id="@+id/nutrimentRow2"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="@drawable/layout_borderline">
 
                                 <TextView
                                     android:id="@+id/carlorieValueText"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:background="@drawable/layout_borderline"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
                                     android:gravity="center"
                                     android:text="1000Kcal"
                                     android:textSize="17sp" />
 
                                 <TextView
                                     android:id="@+id/carboValueText"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:background="@drawable/layout_borderline"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
                                     android:gravity="center"
                                     android:text="99g"
                                     android:textSize="17sp" />
 
                                 <TextView
                                     android:id="@+id/proteinValueText"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:background="@drawable/layout_borderline"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
                                     android:gravity="center"
                                     android:text="2g"
                                     android:textSize="17sp" />
 
                                 <TextView
                                     android:id="@+id/fatValueText"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:background="@drawable/layout_borderline"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
                                     android:gravity="center"
                                     android:text="200g"
                                     android:textSize="17sp" />
 
                                 <TextView
                                     android:id="@+id/priceValueText"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:background="@drawable/layout_borderline"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
                                     android:gravity="center"
                                     android:text="20000원"
                                     android:textSize="17sp" />
